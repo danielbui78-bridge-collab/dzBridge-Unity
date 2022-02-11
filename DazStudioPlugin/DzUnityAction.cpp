@@ -400,7 +400,6 @@ void DzBridgeUnityAction::SetExportOptions(DzFileIOSettings& ExportOptions)
 {
 	 ExportOptions.setBoolValue("doEmbed", false);
 	 ExportOptions.setBoolValue("doDiffuseOpacity", false);
-	 ExportOptions.setBoolValue("doMergeClothing", false);
 	 ExportOptions.setBoolValue("doCopyTextures", false);
 
 }
