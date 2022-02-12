@@ -128,7 +128,15 @@ bool DzBridgeUnityAction::CreateUI()
 	}
 
 	 // Create the dialog
-	if (!BridgeDialog) BridgeDialog = new DzBridgeUnityDialog(mw);
+	if (!BridgeDialog)
+	{
+		BridgeDialog = new DzBridgeUnityDialog(mw);
+	}
+	else
+	{
+		BridgeDialog->resetToDefaults();
+		BridgeDialog->loadSavedSettings();
+	}
 	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(BridgeDialog);
 	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(BridgeDialog);
 
@@ -157,7 +165,7 @@ void DzBridgeUnityAction::executeAction()
 
 		  //Create Daz3D folder if it doesn't exist
 		  QDir dir;
-		  RootFolder = BridgeDialog->assetsFolderEdit->text() + "/Daz3D";
+		  RootFolder = BridgeDialog->getAssetsFolderEdit()->text().replace("\\", "/") + "/Daz3D";
 		  dir.mkpath(RootFolder);
 
 		  // Collect the values from the dialog fields
@@ -165,18 +173,19 @@ void DzBridgeUnityAction::executeAction()
 		  ExportFolder = CharacterName;
 		  DestinationPath = RootFolder + "/" + ExportFolder + "/";
 		  CharacterFBX = DestinationPath + CharacterName + ".fbx";
-		  AssetType = BridgeDialog->getAssetTypeCombo()->currentText().replace(" ", "");
+		  AssetType = cleanString(BridgeDialog->getAssetTypeCombo()->currentText());
+
 		  MorphString = BridgeDialog->GetMorphString();
+		  MorphMapping = BridgeDialog->GetMorphMapping();
 		  ExportMorphs = BridgeDialog->getMorphsEnabledCheckBox()->isChecked();
 		  ExportSubdivisions = BridgeDialog->getSubdivisionEnabledCheckBox()->isChecked();
-		  MorphMapping = BridgeDialog->GetMorphMapping();
 
+		  FBXVersion = BridgeDialog->getFbxVersionCombo()->currentText();
+		  ShowFbxDialog = BridgeDialog->getShowFbxDialogCheckBox()->isChecked();
 		  InstallUnityFiles = BridgeDialog->installUnityFilesCheckBox->isChecked();
 
 		  CreateUnityFiles(true);
 		  exportProgress.step();
-
-		  FBXVersion = QString("FBX 2014 -- Binary");
 
 		  if (ExportSubdivisions)
 		  {
@@ -187,7 +196,6 @@ void DzBridgeUnityAction::executeAction()
 			  exportProgress.step();
 
 		  }
-
 
 		  m_subdivisionDialog->LockSubdivisionProperties(ExportSubdivisions);
 		  ExportBaseMesh = false;
@@ -221,9 +229,9 @@ void DzBridgeUnityAction::executeAction()
 		  // DB 2021-09-02: Unlock and Undo subdivision changes
 		  m_subdivisionDialog->UnlockSubdivisionProperties();
 
-		  //Rename the textures folder
-		  QDir textureDir(DestinationPath + "/" + CharacterName + ".images");
-		  textureDir.rename(DestinationPath + "/" + CharacterName + ".images", DestinationPath + "/Textures");
+		  ////Rename the textures folder
+		  //QDir textureDir(DestinationPath + "/" + CharacterName + ".images");
+		  //textureDir.rename(DestinationPath + "/" + CharacterName + ".images", DestinationPath + "/Textures");
 
 		  // DB 2021-10-11: Progress Bar
 		  exportProgress.finish();
