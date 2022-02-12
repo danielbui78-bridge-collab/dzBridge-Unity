@@ -63,6 +63,7 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 // Intermediate Folder
 	 QHBoxLayout* assetsFolderLayout = new QHBoxLayout(this);
 	 assetsFolderEdit = new QLineEdit(this);
+	 connect(assetsFolderEdit, SIGNAL(textChanged(const QString&)), this, SLOT(HandleAssetFolderChanged(const QString&)));
 	 assetsFolderButton = new QPushButton("...", this);
 	 connect(assetsFolderButton, SIGNAL(released()), this, SLOT(HandleSelectAssetsFolderButton()));
 
@@ -108,22 +109,6 @@ bool DzBridgeUnityDialog::loadSavedSettings()
 		// DB (2021-05-15): check AssetsPath folder and set InstallUnityFiles if Daz3D subfolder does not exist
 		QString directoryName = settings->value("AssetsPath").toString();
 		assetsFolderEdit->setText(directoryName);
-		if (QDir(directoryName + QDir::separator() + "Daz3D").exists())
-		{
-			// deselect install unity files
-			settings->setValue("InstallUnityFiles", false);
-			installUnityFilesCheckBox->setChecked(false);
-			// rename label to show "Overwrite"
-			installOrOverwriteUnityFilesLabel->setText(tr("Overwrite Unity Files"));
-		}
-		else
-		{
-			settings->setValue("InstallUnityFiles", true);
-			installUnityFilesCheckBox->setChecked(true);
-			// rename label to show "Install"
-			installOrOverwriteUnityFilesLabel->setText(tr("Install Unity Files"));
-		}
-
 	}
 	else
 	{
@@ -159,6 +144,27 @@ void DzBridgeUnityDialog::resetToDefaults()
 	else
 	{
 		assetTypeCombo->setCurrentIndex(1);
+	}
+
+}
+
+void DzBridgeUnityDialog::HandleAssetFolderChanged(const QString& directoryName)
+{
+	// DB (2021-05-15): Check for presence of Daz3D folder, and set installUnityFiles if not present
+	if (QDir(directoryName + QDir::separator() + "Daz3D").exists())
+	{
+		// deselect install unity files
+		settings->setValue("InstallUnityFiles", false);
+		installUnityFilesCheckBox->setChecked(false);
+		// rename label to show "Overwrite"
+		installOrOverwriteUnityFilesLabel->setText(tr("Overwrite Unity Files"));
+	}
+	else
+	{
+		settings->setValue("InstallUnityFiles", true);
+		installUnityFilesCheckBox->setChecked(true);
+		// rename label to show "Install"
+		installOrOverwriteUnityFilesLabel->setText(tr("Install Unity Files"));
 	}
 
 }
@@ -202,23 +208,6 @@ void DzBridgeUnityDialog::HandleSelectAssetsFolderButton()
 				{
 					 QMessageBox::warning(0, tr("Error"), tr("Please select Unity Root Assets Folder."), QMessageBox::Ok);
 					 return;
-				}
-
-				// DB (2021-05-15): Check for presence of Daz3D folder, and set installUnityFiles if not present
-				if ( QDir(directoryName + QDir::separator() + "Daz3D").exists() )
-				{
-					// deselect install unity files
-					settings->setValue("InstallUnityFiles", false);
-					installUnityFilesCheckBox->setChecked(false);
-					// rename label to show "Overwrite"
-					installOrOverwriteUnityFilesLabel->setText(tr("Overwrite Unity Files"));
-				}
-				else
-				{
-					settings->setValue("InstallUnityFiles", true);
-					installUnityFilesCheckBox->setChecked(true);
-					// rename label to show "Install"
-					installOrOverwriteUnityFilesLabel->setText(tr("Install Unity Files"));
 				}
 
 				assetsFolderEdit->setText(directoryName);

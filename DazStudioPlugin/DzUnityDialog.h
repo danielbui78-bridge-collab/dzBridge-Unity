@@ -38,6 +38,7 @@ protected slots:
 	void HandleSelectAssetsFolderButton();
 	void HandleInstallUnityFilesCheckBoxChange(int state);
 	void HandleAssetTypeComboChange(int state);
+	void HandleAssetFolderChanged(const QString& directoryName);
 
 protected:
 	QLineEdit* projectEdit;
