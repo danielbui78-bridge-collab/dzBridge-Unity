@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="/DazBridgeUnity">
-        <file alias="daztounity.unitypackage">daztounity.unitypackage</file>
+        <file alias="daztounity.unitypackage">DazToUnity-HDRP.unitypackage</file>
     </qresource>
     <qresource prefix="/DazBridgeUnity/Images">
         <file alias="icon">Images/Icon.png</file>
