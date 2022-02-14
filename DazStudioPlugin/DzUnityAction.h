@@ -34,6 +34,6 @@ protected:
 	 Q_INVOKABLE bool CreateUI();
 	 Q_INVOKABLE void WriteConfiguration();
 	 Q_INVOKABLE void SetExportOptions(DzFileIOSettings& ExportOptions);
-	 Q_INVOKABLE void CreateUnityFiles(bool replace = true);
+	 Q_INVOKABLE QString CreateUnityFiles(bool replace = true);
 
 };

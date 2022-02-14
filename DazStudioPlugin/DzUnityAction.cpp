@@ -140,10 +140,9 @@ void DzBridgeUnityAction::executeAction()
 		  {
 			  QMessageBox::information(0, "DazBridge: Unity",
 				  tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
-			  QString destPath = RootFolder + "/daztounity.unitypackage";
 			  if (InstallUnityFiles)
 			  {
-				  CreateUnityFiles(true);
+				  QString destPath = CreateUnityFiles(true);
 #ifdef WIN32
 				  ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
 #endif
@@ -153,16 +152,18 @@ void DzBridgeUnityAction::executeAction()
 	 }
 }
 
-void DzBridgeUnityAction::CreateUnityFiles(bool replace)
+QString DzBridgeUnityAction::CreateUnityFiles(bool replace)
 {
 	 if (!InstallUnityFiles)
-		  return;
+		  return "";
 
-	 QString destPath = RootFolder + "/DazToUnity.unitypackage";
-	 QFile file(":/DazBridgeUnity/daztounity.unitypackage");
-	 this->CopyFile(&file, &destPath, replace);
-	 file.close();
+	 QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
+	 QFile srcFile(srcPath);
+	 QString destPath = RootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
+	 this->CopyFile(&srcFile, &destPath, replace);
+	 srcFile.close();
 
+	 return destPath;
 }
 
 void DzBridgeUnityAction::WriteConfiguration()
