@@ -4,7 +4,7 @@
 #include "version.h"
 #include "DzUnityAction.h"
 #include "DzUnityDialog.h"
-#include "OpenFBXInterface.h"
+//#include "OpenFBXInterface.h"
 
 //DZ_PLUGIN_DEFINITION("DazBridge-Unity");
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved)
@@ -37,7 +37,7 @@ Bridge Collaboration Project<br><br>\
 
 DZ_PLUGIN_CLASS_GUID(DzBridgeUnityAction, 902e451a-91c8-45aa-9495-3905149e0388);
 DZ_PLUGIN_CUSTOM_CLASS_GUID(DzBridgeUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);
-DZ_PLUGIN_CLASS_GUID(OpenFBXInterface, 9aaaf080-28c1-4e0f-a3e9-a0205e91a154);
+//DZ_PLUGIN_CLASS_GUID(OpenFBXInterface, 9aaaf080-28c1-4e0f-a3e9-a0205e91a154);
 
 
 static QWidget* GetParentArg0(const QVariantList& args)

@@ -31,15 +31,15 @@ add_custom_command(OUTPUT ${DPC_IMAGES_CPP}
 )
 set_property(SOURCE ${DPC_IMAGES_CPP} PROPERTY SKIP_AUTOMOC ON)
 
-set(OFBXI_SOURCES
-	OpenFBXInterface.cpp
-	OpenFBXInterface.h
-)
+#set(OFBXI_SOURCES
+#	OpenFBXInterface.cpp
+#	OpenFBXInterface.h
+#)
 
-set(OSDI_SOURCES
-	OpenSubdivInterface.cpp
-	OpenSubdivInterface.h
-)
+#set(OSDI_SOURCES
+#	OpenSubdivInterface.cpp
+#	OpenSubdivInterface.h
+#)
 
 add_library( ${DZ_PLUGIN_TGT_NAME} SHARED	
 	DzUnityAction.cpp
@@ -51,15 +51,15 @@ add_library( ${DZ_PLUGIN_TGT_NAME} SHARED
 	Resources/resources.qrc
 	${DPC_IMAGES_CPP}
 	${OS_SOURCES}
-	${OFBXI_SOURCES}
-	${OSDI_SOURCES}
+#	${OFBXI_SOURCES}
+#	${OSDI_SOURCES}
 )
 
 target_include_directories(${DZ_PLUGIN_TGT_NAME}
 	PUBLIC 
 	${DZBRIDGE_INCLUDE_DIR}
-	${FBX_SDK_INCLUDE}
-	${OPENSUBDIV_INCLUDE}
+#	${FBX_SDK_INCLUDE}
+#	${OPENSUBDIV_INCLUDE}
 )
 
 target_link_libraries(${DZ_PLUGIN_TGT_NAME}
@@ -71,8 +71,8 @@ target_link_libraries(${DZ_PLUGIN_TGT_NAME}
 	${DZSDK_QT_GUI_TARGET}
 	${DZSDK_QT_SCRIPT_TARGET}
 	${DZSDK_QT_NETWORK_TARGET}
-	${FBX_IMPORT_LIBS}
-	${OPENSUBDIV_LIB}
+#	${FBX_IMPORT_LIBS}
+#	${OPENSUBDIV_LIB}
 )
 
 set_target_properties (${DZ_PLUGIN_TGT_NAME}
