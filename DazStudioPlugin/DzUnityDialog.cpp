@@ -68,7 +68,7 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 connect(assetTypeCombo, SIGNAL(activated(int)), this, SLOT(HandleAssetTypeComboChange(int)));
 
 	 // Intermediate Folder
-	 QHBoxLayout* assetsFolderLayout = new QHBoxLayout(this);
+	 QHBoxLayout* assetsFolderLayout = new QHBoxLayout();
 	 assetsFolderEdit = new QLineEdit(this);
 	 connect(assetsFolderEdit, SIGNAL(textChanged(const QString&)), this, SLOT(HandleAssetFolderChanged(const QString&)));
 	 assetsFolderButton = new QPushButton("...", this);

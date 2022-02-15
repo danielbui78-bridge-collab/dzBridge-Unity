@@ -105,7 +105,7 @@ void DzBridgeUnityAction::executeAction()
 	 if (NonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
 	 {
 		  // DB 2021-10-11: Progress Bar
-		  DzProgress exportProgress( "Sending to Unity...", 5 );
+		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 5 );
 
 		  // Read Common GUI values
 		  readGUI(BridgeDialog);
@@ -128,12 +128,12 @@ void DzBridgeUnityAction::executeAction()
 		  //Create Daz3D folder if it doesn't exist
 		  QDir dir;
 		  dir.mkpath(RootFolder);
-		  exportProgress.step();
+		  exportProgress->step();
 
-		  exportHD(&exportProgress);
+		  exportHD(exportProgress);
 
 		  // DB 2021-10-11: Progress Bar
-		  exportProgress.finish();
+		  exportProgress->finish();
 
 		  // DB 2021-09-02: messagebox "Export Complete"
 		  if (NonInteractiveMode == 0)
