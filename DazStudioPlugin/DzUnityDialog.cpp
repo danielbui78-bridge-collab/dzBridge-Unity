@@ -56,6 +56,12 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 //	 setWindowTitle(tr("DazBridge: Unity"));
 	 int revision = PLUGIN_REV % 1000;
 	 setWindowTitle(tr("DazBridge-Unity v%1.%2 Pre-Release Build %3.%4").arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(revision).arg(PLUGIN_BUILD));
+	 QStandardItemModel* model = qobject_cast<QStandardItemModel*>(assetTypeCombo->model());
+	 QStandardItem* item = nullptr;
+	 item = model->findItems("Environment").first();
+	 if (item) item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+	 item = model->findItems("Pose").first();
+	 if (item) item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 
 	 // Connect new asset type handler
 	 connect(assetTypeCombo, SIGNAL(activated(int)), this, SLOT(HandleAssetTypeComboChange(int)));
