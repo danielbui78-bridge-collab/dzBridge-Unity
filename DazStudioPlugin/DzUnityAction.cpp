@@ -176,21 +176,22 @@ void DzBridgeUnityAction::WriteConfiguration()
 
 	 writeDTUHeader(writer);
 
-	 writeAllMaterials(Selection, writer);
-	 writeAllMorphs(writer);
-	 writeAllSubdivisions(writer);
-	 writeAllDForceInfo(Selection, writer);
-
-	 if (AssetType.toLower().contains("skeletalmesh"))
+	 if (AssetType.toLower().contains("mesh"))
 	 {
-		 bool ExportDForce = true;
-		 writer.startMemberArray("dForce WeightMaps", true);
-		 if (ExportDForce)
-		 {
-			 WriteWeightMaps(Selection, writer);
-		 } 
-		 writer.finishArray();
+		 writeAllMaterials(Selection, writer);
+		 writeAllMorphs(writer);
+		 writeAllSubdivisions(writer);
+		 writeAllDForceInfo(Selection, writer);
+	 }
 
+	 if (AssetType == "Pose")
+	 {
+		 writeAllPoses(writer);
+	 }
+
+	 if (AssetType == "Environment")
+	 {
+		 writeEnvironment(writer);
 	 }
 
 	 writer.finishObject();
