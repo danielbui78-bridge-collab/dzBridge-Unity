@@ -2,7 +2,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(DZ_PLUGIN_TGT_NAME dzBridgeUnity)
+set(DZ_PLUGIN_TGT_NAME dzunitybridge)
 set(DZ_PLUGIN_PROJECT_NAME "DzBridge-Unity")
 
 # if building a plugin and you want the compiled result placed in the Daz Studio ./plugins directory
@@ -12,36 +12,26 @@ if(DAZ_STUDIO_EXE_DIR)
 endif()
 
 if(WIN32)
-	set(OS_SOURCES 
+	set(OS_SOURCES
 		DzUnityBridge.rc
 	)
-elseif(APPLE)	
+elseif(APPLE)
 	set(OS_SOURCES "")
 endif()
 
 set(DPC_IMAGES_CPP "${CMAKE_CURRENT_BINARY_DIR}/DzUnityIcon.cpp" )
-set(DPC_SRC_IMAGES 
+set(DPC_SRC_IMAGES
 	Resources/Images/icon.png
 )
 
 add_custom_command(OUTPUT ${DPC_IMAGES_CPP}
-	COMMAND ${DAZ_SDK_DPC_EXE} -mode image -o ${DPC_IMAGES_CPP} ${DPC_SRC_IMAGES}		
+	COMMAND ${DAZ_SDK_DPC_EXE} -mode image -o ${DPC_IMAGES_CPP} ${DPC_SRC_IMAGES}
 	DEPENDS ${DPC_SRC_IMAGES}
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 )
 set_property(SOURCE ${DPC_IMAGES_CPP} PROPERTY SKIP_AUTOMOC ON)
 
-#set(OFBXI_SOURCES
-#	OpenFBXInterface.cpp
-#	OpenFBXInterface.h
-#)
-
-#set(OSDI_SOURCES
-#	OpenSubdivInterface.cpp
-#	OpenSubdivInterface.h
-#)
-
-add_library( ${DZ_PLUGIN_TGT_NAME} SHARED	
+add_library( ${DZ_PLUGIN_TGT_NAME} SHARED
 	DzUnityAction.cpp
 	DzUnityAction.h
 	DzUnityDialog.cpp
@@ -51,19 +41,15 @@ add_library( ${DZ_PLUGIN_TGT_NAME} SHARED
 	Resources/resources.qrc
 	${DPC_IMAGES_CPP}
 	${OS_SOURCES}
-#	${OFBXI_SOURCES}
-#	${OSDI_SOURCES}
 )
 
 target_include_directories(${DZ_PLUGIN_TGT_NAME}
-	PUBLIC 
+	PUBLIC
 	${DZBRIDGE_INCLUDE_DIR}
-#	${FBX_SDK_INCLUDE}
-#	${OPENSUBDIV_INCLUDE}
 )
 
 target_link_libraries(${DZ_PLUGIN_TGT_NAME}
-	PRIVATE 
+	PRIVATE
 	dzcore
 	optimized ${DZBRIDGE_LIB}
 	debug ${DZBRIDGE_LIB_DEBUG}
@@ -71,8 +57,6 @@ target_link_libraries(${DZ_PLUGIN_TGT_NAME}
 	${DZSDK_QT_GUI_TARGET}
 	${DZSDK_QT_SCRIPT_TARGET}
 	${DZSDK_QT_NETWORK_TARGET}
-#	${FBX_IMPORT_LIBS}
-#	${OPENSUBDIV_LIB}
 )
 
 set_target_properties (${DZ_PLUGIN_TGT_NAME}

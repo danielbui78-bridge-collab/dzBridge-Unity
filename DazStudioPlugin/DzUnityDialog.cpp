@@ -46,7 +46,7 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 assetsFolderButton = NULL;
 	 installUnityFilesCheckBox = NULL;
 
-	 settings = new QSettings("Daz3D", "DazToUnity");
+	 settings = new QSettings("Daz 3D", "DazToUnity");
 
 	 // Declarations
 	 int margin = style()->pixelMetric(DZ_PM_GeneralMargin);
