@@ -35,7 +35,7 @@
 
 
 DzBridgeUnityAction::DzBridgeUnityAction() :
-	 DzRuntimePluginAction(tr("&DazBridge-Unity (Daz To Unity)"), tr("Send the selected node to Unity."))
+	 DzRuntimePluginAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
 {
 	 BridgeDialog = nullptr;
 	 NonInteractiveMode = 0;

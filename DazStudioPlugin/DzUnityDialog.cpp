@@ -23,6 +23,7 @@
 #include "dzactionmgr.h"
 #include "dzaction.h"
 #include "dzskeleton.h"
+#include "qstandarditemmodel.h"
 
 #include "DzUnityDialog.h"
 #include "DzBridgeMorphSelectionDialog.h"
@@ -33,7 +34,7 @@
 /*****************************
 Local definitions
 *****************************/
-#define DAZ_TO_UNITY_PLUGIN_NAME "DazBridge: Unity"
+#define DAZ_TO_UNITY_PLUGIN_NAME "DazToUnity"
 
 
 DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
@@ -45,7 +46,7 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 assetsFolderButton = NULL;
 	 installUnityFilesCheckBox = NULL;
 
-	 settings = new QSettings("Daz3D", "DzBridgeUnity");
+	 settings = new QSettings("Daz3D", "DazToUnity");
 
 	 // Declarations
 	 int margin = style()->pixelMetric(DZ_PM_GeneralMargin);
@@ -53,9 +54,9 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 int btnMinWidth = style()->pixelMetric(DZ_PM_ButtonMinWidth);
 
 	 // Set the dialog title
-//	 setWindowTitle(tr("DazBridge: Unity"));
 	 int revision = PLUGIN_REV % 1000;
-	 setWindowTitle(tr("DazBridge-Unity v%1.%2 Pre-Release Build %3.%4").arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(revision).arg(PLUGIN_BUILD));
+	 setWindowTitle(tr("DazToUnity Bridge v%1.%2 Pre-Release Build %3.%4").arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(revision).arg(PLUGIN_BUILD));
+
 	 QStandardItemModel* model = qobject_cast<QStandardItemModel*>(assetTypeCombo->model());
 	 QStandardItem* item = nullptr;
 	 item = model->findItems("Environment").first();
