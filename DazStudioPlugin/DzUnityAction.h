@@ -12,7 +12,6 @@ class DzBridgeUnityAction : public DzRuntimePluginAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
 	 Q_PROPERTY(DzBridgeUnityDialog* BridgeDialog READ getBridgeDialog)
-	 Q_PROPERTY(int NonInteractiveMode READ getNonInteractiveMode WRITE setNonInteractiveMode)
 
 public:
 	DzBridgeUnityAction();
@@ -20,13 +19,10 @@ public:
 	void setInstallUnityFiles(bool arg) { InstallUnityFiles = arg; }
 	bool getInstallUnityFiles() { return InstallUnityFiles; }
 	DzBridgeUnityDialog* getBridgeDialog() { return BridgeDialog; }
-	void setNonInteractiveMode(int arg) { NonInteractiveMode = arg; }
-	int getNonInteractiveMode() { return NonInteractiveMode; }
 
 	QString ProjectFolder;
 
 protected:
-	 int NonInteractiveMode;
 	 DzBridgeUnityDialog* BridgeDialog;
 	 bool InstallUnityFiles;
 
