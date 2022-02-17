@@ -31,5 +31,6 @@ protected:
 	 Q_INVOKABLE void WriteConfiguration();
 	 Q_INVOKABLE void SetExportOptions(DzFileIOSettings& ExportOptions);
 	 Q_INVOKABLE QString CreateUnityFiles(bool replace = true);
+	 QString readGUIRootFolder();
 
 };

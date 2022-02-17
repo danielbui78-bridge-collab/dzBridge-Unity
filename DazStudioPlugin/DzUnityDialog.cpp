@@ -281,12 +281,4 @@ void DzBridgeUnityDialog::HandleAssetTypeComboChange(int state)
 
 }
 
-QString DzBridgeUnityDialog::getRootFolder()
-{
-	QString rootFolder = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "DazToUnity";
-	if (assetNameEdit)
-		rootFolder = assetsFolderEdit->text().replace("\\", "/") + "/Daz3D";
-	return rootFolder;
-}
-
 #include "moc_DzUnityDialog.cpp"

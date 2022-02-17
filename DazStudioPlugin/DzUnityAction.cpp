@@ -207,5 +207,17 @@ void DzBridgeUnityAction::SetExportOptions(DzFileIOSettings& ExportOptions)
 
 }
 
+QString DzBridgeUnityAction::readGUIRootFolder()
+{
+	QString rootFolder = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "DazToUnity";
+
+	if (BridgeDialog)
+	{
+		QLineEdit* assetsFolderEdit = BridgeDialog->getAssetsFolderEdit();
+		if (assetsFolderEdit)
+			rootFolder = assetsFolderEdit->text().replace("\\", "/") + "/Daz3D";
+	}
+	return rootFolder;
+}
 
 #include "moc_DzUnityAction.cpp"

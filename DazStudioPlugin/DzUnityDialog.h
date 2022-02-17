@@ -34,7 +34,6 @@ public:
 
 	Q_INVOKABLE void resetToDefaults();
 
-	QString getRootFolder();
 protected slots:
 	void HandleSelectAssetsFolderButton();
 	void HandleInstallUnityFilesCheckBoxChange(int state);
