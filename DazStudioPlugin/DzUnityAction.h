@@ -4,26 +4,26 @@
 #include <dzjsonwriter.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qtextstream.h>
-#include <DzRuntimePluginAction.h>
+#include <DzBridgeAction.h>
 #include "DzUnityDialog.h"
 
 
-class DzBridgeUnityAction : public DzRuntimePluginAction {
+class DzBridgeUnityAction : public DzBridgeAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
-	 Q_PROPERTY(DzBridgeUnityDialog* BridgeDialog READ getBridgeDialog)
+//	 Q_PROPERTY(DzBridgeUnityDialog* BridgeDialog READ getBridgeDialog)
 
 public:
 	DzBridgeUnityAction();
 
 	void setInstallUnityFiles(bool arg) { InstallUnityFiles = arg; }
 	bool getInstallUnityFiles() { return InstallUnityFiles; }
-	DzBridgeUnityDialog* getBridgeDialog() { return BridgeDialog; }
+//	DzBridgeUnityDialog* getBridgeDialog() { return BridgeDialog; }
 
 	QString ProjectFolder;
 
 protected:
-	 DzBridgeUnityDialog* BridgeDialog;
+//	 DzBridgeUnityDialog* BridgeDialog;
 	 bool InstallUnityFiles;
 
 	 void executeAction();

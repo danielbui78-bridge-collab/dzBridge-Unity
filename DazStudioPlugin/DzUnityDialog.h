@@ -33,6 +33,7 @@ public:
 	virtual ~DzBridgeUnityDialog() {}
 
 	Q_INVOKABLE void resetToDefaults();
+	Q_INVOKABLE bool loadSavedSettings();
 
 protected slots:
 	void HandleSelectAssetsFolderButton();
@@ -48,7 +49,5 @@ protected:
 
 	QLabel* installOrOverwriteUnityFilesLabel;
 	QCheckBox* installUnityFilesCheckBox;
-
-	Q_INVOKABLE bool loadSavedSettings();
 
 };

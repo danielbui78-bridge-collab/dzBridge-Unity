@@ -26,8 +26,10 @@
 #include "dzfacegroup.h"
 #include "dzprogress.h"
 
-#include "DzUnityDialog.h"
 #include "DzUnityAction.h"
+#include "DzUnityDialog.h"
+#include "DzBridgeMorphSelectionDialog.h"
+#include "DzBridgeSubdivisionDialog.h"
 
 #ifdef WIN32
 	#include <shellapi.h>
@@ -35,9 +37,9 @@
 
 
 DzBridgeUnityAction::DzBridgeUnityAction() :
-	 DzRuntimePluginAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
+	 DzBridgeAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
 {
-	 BridgeDialog = nullptr;
+	 m_bridgeDialog = nullptr;
 	 NonInteractiveMode = 0;
 	 AssetType = QString("SkeletalMesh");
 	 //Setup Icon
@@ -72,17 +74,22 @@ bool DzBridgeUnityAction::CreateUI()
 	}
 
 	 // Create the dialog
-	if (!BridgeDialog)
+	if (!m_bridgeDialog)
 	{
-		BridgeDialog = new DzBridgeUnityDialog(mw);
+		m_bridgeDialog = new DzBridgeUnityDialog(mw);
 	}
 	else
 	{
-		BridgeDialog->resetToDefaults();
-		BridgeDialog->loadSavedSettings();
+		DzBridgeUnityDialog* unityDialog = qobject_cast<DzBridgeUnityDialog*>(m_bridgeDialog);
+		if (unityDialog)
+		{
+			unityDialog->resetToDefaults();
+			unityDialog->loadSavedSettings();
+		}
 	}
-	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(BridgeDialog);
-	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(BridgeDialog);
+
+	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(m_bridgeDialog);
+	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
 
 	return true;
 }
@@ -100,7 +107,7 @@ void DzBridgeUnityAction::executeAction()
 	 int dlgResult = 0;
 	 if (NonInteractiveMode == 0)
 	 {
-		 dlgResult = BridgeDialog->exec();
+		 dlgResult = m_bridgeDialog->exec();
 	 }
 	 if (NonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
 	 {
@@ -108,10 +115,12 @@ void DzBridgeUnityAction::executeAction()
 		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 5 );
 
 		  // Read Common GUI values
-		  readGUI(BridgeDialog);
+		  readGUI(m_bridgeDialog);
 
 		  // Read Custom GUI values
-		  InstallUnityFiles = BridgeDialog->installUnityFilesCheckBox->isChecked();
+		  DzBridgeUnityDialog* unityDialog = qobject_cast<DzBridgeUnityDialog*>(m_bridgeDialog);
+		  if (unityDialog)
+			InstallUnityFiles = unityDialog->installUnityFilesCheckBox->isChecked();
 		  // custom animation filename correction for Unity
 		  if (AssetType == "Animation")
 		  {
@@ -211,9 +220,14 @@ QString DzBridgeUnityAction::readGUIRootFolder()
 {
 	QString rootFolder = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "DazToUnity";
 
-	if (BridgeDialog)
+	if (m_bridgeDialog)
 	{
-		QLineEdit* assetsFolderEdit = BridgeDialog->getAssetsFolderEdit();
+		QLineEdit* assetsFolderEdit = nullptr;
+		DzBridgeUnityDialog* unityDialog = qobject_cast<DzBridgeUnityDialog*>(m_bridgeDialog);
+
+		if (unityDialog)
+			assetsFolderEdit = unityDialog->getAssetsFolderEdit();
+
 		if (assetsFolderEdit)
 			rootFolder = assetsFolderEdit->text().replace("\\", "/") + "/Daz3D";
 	}
