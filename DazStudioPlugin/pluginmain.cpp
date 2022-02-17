@@ -63,3 +63,13 @@ QObject* DzBridgeUnityDialogFactory::createInstance() const
 {
 	return (QObject*) new DzBridgeUnityDialog();
 }
+
+#ifdef UNITTEST_DZBRIDGE
+
+#include "UnitTest_DzUnityAction.h"
+#include "UnitTest_DzUnityDialog.h"
+
+DZ_PLUGIN_CLASS_GUID(UnitTest_DzBridgeUnityAction, 17637434-188f-46eb-81e2-8829f2440742);
+DZ_PLUGIN_CLASS_GUID(UnitTest_DzBridgeUnityDialog, ca9c9f54-236d-4ab6-bca3-1cf6c3f93f6a);
+
+#endif
