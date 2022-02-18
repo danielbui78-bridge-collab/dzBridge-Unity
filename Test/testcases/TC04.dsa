@@ -4,11 +4,12 @@ function Run_TestCase_04(sTestAsset)
 {
     sExportFilename = "";
     sAssetType = "SkeletalMesh";
-    sRootFolder = "";
+    sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     sExportFolder = "TC04";
     sProductName = "";
     sComponentName = "";
     arrayMorphList = [];
+	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
 
     print("Running Test Case 4:");
 
@@ -25,12 +26,12 @@ function Run_TestCase_04(sTestAsset)
     // Use AssetName UI textbox instead of sExportFilename
     sExportFilename = "CustomAssetName";
 
-    // Send to Unreal (4.9)
+    // Send to Unity (4.9)
     var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList)
     var sDtuFilename = sReturnString;
 
     // check for expected root folder, export folder and export filename (TC4.11)
-    if (sDtuFilename.lower().find("/documents/daztounreal/tc04/customassetname.dtu") == -1)
+    if (sDtuFilename.lower().find(pathToDUFolder + "/customassetname.dtu") == -1)
     {
         print ("Test Case 4 FAILED: Incorrect output DTU filename");
         return false;
@@ -52,13 +53,13 @@ function Run_TestCase_04(sTestAsset)
     }
 
 	// check for normal maps
-	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
+	/*var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
                 "G8_1FBaseHeadMapB_1002_nm.png", "G8FBaseArmsMapB_1004_nm.png", "G8FBaseLegsMapB_1003_nm.png"];
 	var sDTUpath = DzFileInfo(sDtuFilename).path();
 	if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
 	{
 		return false;
-	}
+	}*/
 
     return true;
 }

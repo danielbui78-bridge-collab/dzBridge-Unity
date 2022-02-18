@@ -4,12 +4,12 @@ function Run_TestCase_10(sTestAsset)
 {
 	sExportFilename = "";
 	sAssetType = "SkeletalMesh";
-	sRootFolder = "";
+	sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
 	sExportFolder = "TC10";
 	sProductName = "";
 	sComponentName = "";
 	arrayMorphList = [];
-
+	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
 	print("Running Test Case 10:");
 
 	// start with clean Daz Studio scene (TC10.1)

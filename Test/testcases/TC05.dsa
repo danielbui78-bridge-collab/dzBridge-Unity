@@ -4,12 +4,11 @@ function Run_TestCase_05(sTestAsset)
 {
     sExportFilename = "";
     sAssetType = "SkeletalMesh";
-    sRootFolder = "";
+    sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     sExportFolder = "";
     sProductName = "";
     sComponentName = "";
     arrayMorphList = [];
-
     print("Running Test Case 5:");
 
     // start with clean Daz Studio scene (TC5.1)
@@ -25,7 +24,7 @@ function Run_TestCase_05(sTestAsset)
     // Use IntermediateFolder UI textbox instead of sRootFolder
     sRootFolder = "C:/CustomRoot";
 
-    // Send to Unreal with default settings (TC5.9)
+    // Send to Unity with default settings (TC5.9)
     var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
 
@@ -52,13 +51,13 @@ function Run_TestCase_05(sTestAsset)
     }
 
 	// check for normal maps
-	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
+	/*var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
                 "G8_1FBaseHeadMapB_1002_nm.png", "G8FBaseArmsMapB_1004_nm.png", "G8FBaseLegsMapB_1003_nm.png"];
 	var sDTUpath = DzFileInfo(sDtuFilename).path();
 	if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
 	{
 		return false;
-	}
+	}*/
 
     return true;
 }

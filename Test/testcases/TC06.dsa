@@ -4,12 +4,12 @@ function Run_TestCase_06(sTestAsset)
 {
     sExportFilename = "";
     sAssetType = "SkeletalMesh";
-    sRootFolder = "";
+    sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     sExportFolder = "TC06";
     sProductName = "";
     sComponentName = "";
     arrayMorphList = [];
-
+	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
     print("Running Test Case 6:");
 
     // start with clean Daz Studio scene (TC6.1)
@@ -23,12 +23,12 @@ function Run_TestCase_06(sTestAsset)
     // Select "Bodybuilder" Morph (TC6.8)
     arrayMorphList = ["CTRLBodybuilder"];
 
-    // Send to Unreal (TC6.10)
+    // Send to Unity (TC6.10)
     var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
 
     // check for expected root folder, export folder and export filename
-    if (sDtuFilename.lower().find("/documents/daztounreal/tc06/genesis81female.dtu") == -1)
+    if (sDtuFilename.lower().find(pathToDUFolder + "/genesis81female.dtu") == -1)
     {
         print ("Test Case 6 FAILED: Incorrect output DTU filename");
         return false;
@@ -50,13 +50,13 @@ function Run_TestCase_06(sTestAsset)
     }
 
 	// check for normal maps
-	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
+	/*var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
                 "G8_1FBaseHeadMapB_1002_nm.png", "G8FBaseArmsMapB_1004_nm.png", "G8FBaseLegsMapB_1003_nm.png"];
 	var sDTUpath = DzFileInfo(sDtuFilename).path();
 	if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
 	{
 		return false;
-	}
+	}*/
 
     return true;
 }

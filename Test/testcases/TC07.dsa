@@ -4,12 +4,12 @@ function Run_TestCase_07(sTestAsset)
 {
     var sExportFilename = "";
     var sAssetType = "SkeletalMesh";
-    var sRootFolder = "";
+    var sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     var sExportFolder = "TC07";
     var sProductName = "";
     var sComponentName = "";
     var arrayMorphList = [];
-
+	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
 	var SubdivisionTestLevel = 3;
 
     print("Running Test Case 7:");
@@ -22,19 +22,19 @@ function Run_TestCase_07(sTestAsset)
     var sFullPath = oContentMgr.findFile(sTestAsset);
     oContentMgr.openFile(sFullPath);
 
-    // Create DzUnrealAction and DzUnrealDialog
-    var oBridge = new DzUnrealAction();
+    // Create DzBridgeUnityAction and DzUnityDialog
+    var oBridge = new DzBridgeUnityAction();
 	if (oBridge == undefined)
 	{
-		print ("ERROR: could not instantiate DzUnrealAction object.");
+		print ("ERROR: could not instantiate DzBridgeUnityAction object.");
 		return false;
 	}    
     
-    var wBridgeDialog = new DzUnrealDialog();
+    var wBridgeDialog = new DzBridgeUnityDialog();
 //    var wBridgeDialog = oBridge.getBridgeDialog();
 	if (wBridgeDialog == undefined)
 	{
-		print ("ERROR: could not instantiate DzUnrealDialog object.");
+		print ("ERROR: could not instantiate DzBridgeUnityDialog object.");
 		return false;
 	}
 	var wSubdivDialog = new DzBridgeSubdivisionDialog(wBridgeDialog);
@@ -45,7 +45,7 @@ function Run_TestCase_07(sTestAsset)
 		return false;
 	}    
 
-	oBridge.setBridgeDialog(wBridgeDialog);
+	//oBridge.setBridgeDialog(wBridgeDialog);
 	oBridge.setSubdivisionDialog(wSubdivDialog);
 
     wBridgeDialog.wSubdivisionEnabledCheckBox.setChecked(true);
@@ -58,12 +58,12 @@ function Run_TestCase_07(sTestAsset)
 	    wSubdivDialog.setSubdivisionLevelByNode(nodeSelection, SubdivisionTestLevel);
 	}
 
-    // Send to Unreal (TC7.10)
+    // Send to Unity (TC7.10)
     var sReturnString = Run_Exporter2(oBridge, sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
 
     // check for expected root folder, export folder and export filename
-    if (sDtuFilename.lower().find("/documents/daztounreal/tc07/genesis81female.dtu") == -1)
+    if (sDtuFilename.lower().find(pathToDUFolder + "/genesis81female.dtu") == -1)
     {
         print ("Test Case 7 FAILED: Incorrect output DTU filename");
         return false;
@@ -101,13 +101,13 @@ function Run_TestCase_07(sTestAsset)
     }
 
 	// check for normal maps
-	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
+/*	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
                 "G8_1FBaseHeadMapB_1002_nm.png", "G8FBaseArmsMapB_1004_nm.png", "G8FBaseLegsMapB_1003_nm.png"];
 	var sDTUpath = DzFileInfo(sDtuFilename).path();
 	if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
 	{
 		return false;
-	}
+	}*/
 
     return true;
 }

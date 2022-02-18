@@ -1,7 +1,7 @@
 // DAZ Studio version 4.16.0.3 filetype DAZ Script
 var includeDir_oFILE = new DzFile( getScriptFileName() );
 //var sIncludePath = includeDir_oFILE.path();
-var sIncludePath = "C:/GitHub/dzBridge-Unity-collab/Test/testcases/"
+var sIncludePath = "C:/GitHub/dzbridge-unity/Test/TestCases/"
 
 include(sIncludePath + "TC01.dsa")
 include(sIncludePath + "TC02.dsa")
