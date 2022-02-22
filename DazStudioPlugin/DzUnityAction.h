@@ -27,10 +27,10 @@ protected:
 	 bool InstallUnityFiles;
 
 	 void executeAction();
-	 Q_INVOKABLE bool CreateUI();
-	 Q_INVOKABLE void WriteConfiguration();
-	 Q_INVOKABLE void SetExportOptions(DzFileIOSettings& ExportOptions);
-	 Q_INVOKABLE QString CreateUnityFiles(bool replace = true);
+	 Q_INVOKABLE bool createUI();
+	 Q_INVOKABLE void writeConfiguration();
+	 Q_INVOKABLE void setExportOptions(DzFileIOSettings& ExportOptions);
+	 Q_INVOKABLE QString createUnityFiles(bool replace = true);
 	 QString readGUIRootFolder();
 
 };

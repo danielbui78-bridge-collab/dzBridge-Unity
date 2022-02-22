@@ -51,7 +51,7 @@ DzBridgeUnityAction::DzBridgeUnityAction() :
 
 }
 
-bool DzBridgeUnityAction::CreateUI()
+bool DzBridgeUnityAction::createUI()
 {
 	// Check if the main window has been created yet.
 	// If it hasn't, alert the user and exit early.
@@ -100,7 +100,7 @@ void DzBridgeUnityAction::executeAction()
 	 // Create and show the dialog. If the user cancels, exit early,
 	 // otherwise continue on and do the thing that required modal
 	 // input from the user.
-	 if (CreateUI() == false)
+	 if (createUI() == false)
 		 return;
 
 	 // If the Accept button was pressed, start the export
@@ -151,7 +151,7 @@ void DzBridgeUnityAction::executeAction()
 				  tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
 			  if (InstallUnityFiles)
 			  {
-				  QString destPath = CreateUnityFiles(true);
+				  QString destPath = createUnityFiles(true);
 #ifdef WIN32
 				  ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
 #endif
@@ -161,7 +161,7 @@ void DzBridgeUnityAction::executeAction()
 	 }
 }
 
-QString DzBridgeUnityAction::CreateUnityFiles(bool replace)
+QString DzBridgeUnityAction::createUnityFiles(bool replace)
 {
 	 if (!InstallUnityFiles)
 		  return "";
@@ -175,7 +175,7 @@ QString DzBridgeUnityAction::CreateUnityFiles(bool replace)
 	 return destPath;
 }
 
-void DzBridgeUnityAction::WriteConfiguration()
+void DzBridgeUnityAction::writeConfiguration()
 {
 	 QString DTUfilename = DestinationPath + CharacterName + ".dtu";
 	 QFile DTUfile(DTUfilename);
@@ -190,7 +190,7 @@ void DzBridgeUnityAction::WriteConfiguration()
 		 writeAllMaterials(Selection, writer);
 		 writeAllMorphs(writer);
 		 writeAllSubdivisions(writer);
-		 writeAllDForceInfo(Selection, writer);
+		 writeAllDforceInfo(Selection, writer);
 	 }
 
 	 if (AssetType == "Pose")
@@ -208,7 +208,7 @@ void DzBridgeUnityAction::WriteConfiguration()
 }
 
 // Setup custom FBX export options
-void DzBridgeUnityAction::SetExportOptions(DzFileIOSettings& ExportOptions)
+void DzBridgeUnityAction::setExportOptions(DzFileIOSettings& ExportOptions)
 {
 	 ExportOptions.setBoolValue("doEmbed", false);
 	 ExportOptions.setBoolValue("doDiffuseOpacity", false);
