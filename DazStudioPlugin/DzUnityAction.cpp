@@ -115,7 +115,7 @@ void DzBridgeUnityAction::executeAction()
 		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 5 );
 
 		  // Read Common GUI values
-		  readGUI(m_bridgeDialog);
+		  readGui(m_bridgeDialog);
 
 		  // Read Custom GUI values
 		  DzBridgeUnityDialog* unityDialog = qobject_cast<DzBridgeUnityDialog*>(m_bridgeDialog);
