@@ -13,6 +13,8 @@ class QLabel;
 class QWidget;
 class DzBridgeUnityAction;
 
+class UnitTest_DzBridgeUnityDialog;
+
 class DzBridgeUnityDialog : public DzBridgeDialog {
 	friend DzBridgeUnityAction;
 	Q_OBJECT
@@ -50,4 +52,7 @@ protected:
 	QLabel* installOrOverwriteUnityFilesLabel;
 	QCheckBox* installUnityFilesCheckBox;
 
+#ifdef UNITTEST_DZBRIDGE
+	friend class UnitTest_DzBridgeUnityDialog;
+#endif
 };

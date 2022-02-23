@@ -216,7 +216,7 @@ void DzBridgeUnityAction::setExportOptions(DzFileIOSettings& ExportOptions)
 
 }
 
-QString DzBridgeUnityAction::readGUIRootFolder()
+QString DzBridgeUnityAction::readGuiRootFolder()
 {
 	QString rootFolder = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "DazToUnity";
 

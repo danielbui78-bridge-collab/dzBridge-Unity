@@ -7,6 +7,7 @@
 #include <DzBridgeAction.h>
 #include "DzUnityDialog.h"
 
+class UnitTest_DzBridgeUnityAction;
 
 class DzBridgeUnityAction : public DzBridgeAction {
 	 Q_OBJECT
@@ -31,6 +32,10 @@ protected:
 	 Q_INVOKABLE void writeConfiguration();
 	 Q_INVOKABLE void setExportOptions(DzFileIOSettings& ExportOptions);
 	 Q_INVOKABLE QString createUnityFiles(bool replace = true);
-	 QString readGUIRootFolder();
+	 QString readGuiRootFolder();
+
+#ifdef UNITTEST_DZBRIDGE
+	friend class UnitTest_DzBridgeUnityAction;
+#endif
 
 };
