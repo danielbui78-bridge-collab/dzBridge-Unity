@@ -169,7 +169,7 @@ QString DzBridgeUnityAction::createUnityFiles(bool replace)
 	 QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
 	 QFile srcFile(srcPath);
 	 QString destPath = RootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
-	 this->CopyFile(&srcFile, &destPath, replace);
+	 this->copyFile(&srcFile, &destPath, replace);
 	 srcFile.close();
 
 	 return destPath;
