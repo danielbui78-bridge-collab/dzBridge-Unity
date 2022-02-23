@@ -10,8 +10,8 @@ function Run_TestCase_03(sTestAsset)
     sComponentName = "";
     arrayMorphList = [];
 	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
-	
-    print("Running Test Case 3:");
+
+    printToLog("Running Test Case 3:");
 
     // start with clean Daz Studio scene (TC3.1)
     Scene.clear();
@@ -26,9 +26,9 @@ function Run_TestCase_03(sTestAsset)
     var sLabel = oNode.getLabel();
     if (sLabel != "Genesis 8.1 Female")
     {
-        print ("Test case 3 FAILED: Unable to set up test conditions: sLabel = " + sLabel);
+        printToLog("Test case 3 FAILED: Unable to set up test conditions: sLabel = " + sLabel);
     }
-    //print(sLabel)
+    //printToLog(sLabel)
     sLabel = "CustomSceneLabel";
     oNode.setLabel(sLabel);
 
@@ -39,11 +39,11 @@ function Run_TestCase_03(sTestAsset)
     // check for expected root folder, export folder and export filename (TC3.12)
     if (sDtuFilename.lower().find(pathToDUFolder + "/customscenelabel.dtu") == -1)
     {
-        print ("Test Case 3 FAILED: Incorrect output DTU filename");
+        printToLog("Test Case 3 FAILED: Incorrect output DTU filename");
         return false;
     }
 
-    print("Exported DTU = " + sDtuFilename);
+    printToLog("Exported DTU = " + sDtuFilename);
     if (Validate_DTU_file(sDtuFilename) == false)
     {
         return false;
@@ -51,7 +51,7 @@ function Run_TestCase_03(sTestAsset)
 
     var sFbxFilename = sDtuFilename;
     sFbxFilename = sFbxFilename.replace(".dtu",".fbx");
-    print("Exported DTU = " + sFbxFilename);
+    printToLog("Exported FBX = " + sFbxFilename);
 
     if (Validate_FBX_file(sFbxFilename) == false)
     {

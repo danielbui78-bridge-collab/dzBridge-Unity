@@ -1,5 +1,54 @@
 // DAZ Studio version 4.16.0.3 filetype DAZ Script
 
+var sOutputPath = Global_sOutputPath;
+var sLogFile = sOutputPath + "/" + "temp_log.txt";
+var sJsonFile = sOutputPath + "/" + "TestCase_Results.json"
+
+function clearLog()
+{
+	var oFile = new DzFile(sLogFile);
+	oFile.open( DzFile.WriteOnly );
+	oFile.write("");
+	oFile.close();
+}
+
+function printToLog(sText)
+{
+	print(sText);
+	var oFile = new DzFile(sLogFile);
+	oFile.open( DzFile.Append );
+	oFile.write(sText + "\n");
+	oFile.close();
+}
+
+function logTxt(logText)
+{
+        var file = new DzFile(sLogFile);
+        file.open( DzFile.Append );
+        file.write(logText);
+        file.close();
+}
+
+function readLogText()
+{
+     var file = new DzFile(sLogFile);
+     file.open( DzFile.ReadOnly);
+     return file.read();
+}
+
+function logToJson(testCase, result)
+{
+		var TestCase = testCase;
+        var file = new DzFile(sJsonFile);
+        file.open( DzFile.Append);
+        file.write(JSON.stringify({"TestCase ID": TestCase, "Test Result": result, "Test Log":readLogText()}, null, "\t"));
+        file.write("\n");
+        file.close();
+		clearLog();
+
+        return result;
+}
+
 /////////////////////////////////////
 // Validation functions
 /////////////////////////////////////
@@ -9,21 +58,21 @@ function Validate_DTU_file( sDtuFilename )
 	var oFile = new DzFile( sDtuFilename );
 	if ( !oFile.exists() )
 	{
-		print("DTU File not found [FAILED].");
+		printToLog("DTU File not found [FAILED].");
 		return false;
 	}
 
 	oFile.open( DzFile.ReadOnly );
 	if (!oFile)
 	{
-		print("Unable to open DTU file [FAILED].");
+		printToLog("Unable to open DTU file [FAILED].");
 		return false;
 	}
 
 	var sDTU_contents = oFile.read();
 	if (!sDTU_contents)
 	{
-		print("Unable to read file [FAILED].");
+		printToLog("Unable to read file [FAILED].");
 		return false;
 	}
 
@@ -41,12 +90,12 @@ function Validate_DTU_file( sDtuFilename )
 
 	if (!oDTU)
 	{
-		print("DTU: Invalid JSON format [FAILED].");
+		printToLog("DTU: Invalid JSON format [FAILED].");
 		return false;
 	}
 	else
 	{
-		print("DTU: Valid JSON format [OK].");
+		printToLog("DTU: Valid JSON format [OK].");
 		return true;
 	}
 	return false;
@@ -57,21 +106,21 @@ function Load_DTU_file (sDtuFilename)
 	var oFile = new DzFile( sDtuFilename );
 	if ( !oFile.exists() )
 	{
-		print("DTU File not found [FAILED].");
+		printToLog("DTU File not found [FAILED].");
 		return false;
 	}
 
 	oFile.open( DzFile.ReadOnly );
 	if (!oFile)
 	{
-		print("Unable to open DTU file [FAILED].");
+		printToLog("Unable to open DTU file [FAILED].");
 		return false;
 	}
 
 	var sDTU_contents = oFile.read();
 	if (!sDTU_contents)
 	{
-		print("Unable to read file [FAILED].");
+		printToLog("Unable to read file [FAILED].");
 		return false;
 	}
 
@@ -85,7 +134,7 @@ function Load_DTU_file (sDtuFilename)
 		oDTU = false;
 	}
 
-	return oDTU;	
+	return oDTU;
 }
 
 function Validate_FBX_file (sFbxFilename)
@@ -94,12 +143,12 @@ function Validate_FBX_file (sFbxFilename)
 	var result = oFBXi.LoadScene(sFbxFilename);
 	if (result)
 	{
-		print("FBX fileformat check passed: valid FBX file");
+		printToLog("FBX fileformat check passed: valid FBX file");
 		return true;
 	}
 	else
 	{
-		print("FBX fileformat check failed: invalid FBX file");
+		printToLog("FBX fileformat check failed: invalid FBX file");
 		return false;
 	}
 	return false;
@@ -108,22 +157,22 @@ function Validate_FBX_file (sFbxFilename)
 function Validate_NormalMaps (arrNormalMapList, sDTUpath)
 {
  	var sExportTexturesFolder = sDTUpath + "/" + "exporttextures";
- 	//print(sExportTexturesFolder)
+ 	//printToLog(sExportTexturesFolder)
 	var oFolderInfo = new DzDir( sExportTexturesFolder );
 	if ( !oFolderInfo.exists() )
 	{
-		print("Normal map folder not found [FAILED].");
+		printToLog("Normal map folder not found [FAILED].");
 		return false;
 	}
 	else
 	{
-		print("Generated Normal map folder found:");
+		printToLog("Generated Normal map folder found:");
 	}
 	oFolderInfo.setNameFilters(["*_nm.png"]);
 	var numFiles = oFolderInfo.count();
 	if (numFiles != arrNormalMapList.length)
 	{
-		print("Incorrect number of normal maps found [FAILED].");
+		printToLog("Incorrect number of normal maps found [FAILED].");
 		return false;
 	}
 	for (i=0; i < arrNormalMapList.length ; i++)
@@ -132,7 +181,7 @@ function Validate_NormalMaps (arrNormalMapList, sDTUpath)
 		var oFileInfo = new DzFileInfo(sNormalMapPath);
 		if (oFileInfo.exists())
 		{
-			print("Generated normal map found: " + arrNormalMapList[i] + ":");
+			printToLog("Generated normal map found: " + arrNormalMapList[i] + ":");
 			if (Validate_Image_Format(sNormalMapPath) == false)
 			{
 				return false;
@@ -140,7 +189,7 @@ function Validate_NormalMaps (arrNormalMapList, sDTUpath)
 		}
 		else
 		{
-			print("Normal map not found: " + arrNormalMapList[i] + " [FAILED]");
+			printToLog("Normal map not found: " + arrNormalMapList[i] + " [FAILED]");
 			return false;
 		}
 	}
@@ -160,12 +209,12 @@ function Validate_Image_Format(sImagePath)
 	var img = new QImage;
 	if (img.load(sImagePath) == true)
 	{
-		print("  - valid image format. [OK]");
+		printToLog("  - valid image format. [OK]");
 		return true;
 	}
 	else
 	{
-		print("  - invalid format. [FAILED]")
+		printToLog("  - invalid format. [FAILED]")
 		return false;
 	}
 
@@ -179,7 +228,7 @@ function Validate_LIE_Textures(nNumLIETextures, sNameFilters, sDTUpath)
 	var oTextureFolder = DzDir(sExportTexturesFolder);
 	if (oTextureFolder.exists() == false)
 	{
-		print("ExportTextures subfolder was NOT generated [FAILED].");
+		printToLog("ExportTextures subfolder was NOT generated [FAILED].");
 		return false;
 	}
 
@@ -188,13 +237,13 @@ function Validate_LIE_Textures(nNumLIETextures, sNameFilters, sDTUpath)
 
 	if (oFileList.length != nNumLIETextures)
 	{
-		print("Incorrect number of LIE textures found [FAILED].");
+		printToLog("Incorrect number of LIE textures found [FAILED].");
 		return false;
 	}
 	for (var i=0; i < oFileList.length; i++)
 	{
 		var sTexturePath = sExportTexturesFolder + "/" + oFileList[i];
-		print("LIE texture found: " + oFileList[i] + ":");
+		printToLog("LIE texture found: " + oFileList[i] + ":");
 		if (Validate_Image_Format(sTexturePath) == false)
 		{
 			return false;
@@ -209,7 +258,7 @@ function Validate_LIE_Textures(nNumLIETextures, sNameFilters, sDTUpath)
 /////////////////////////////////////
 function Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList)
 {
-	var obj = new DzBridgeUnityAction()
+	var obj = new DzUnrealAction()
 	obj.resetToDefaults();
 	obj.setNonInteractiveMode(1);
 

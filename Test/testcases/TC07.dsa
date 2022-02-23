@@ -12,7 +12,7 @@ function Run_TestCase_07(sTestAsset)
 	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
 	var SubdivisionTestLevel = 3;
 
-    print("Running Test Case 7:");
+    printToLog("Running Test Case 7:");
 
     // start with clean Daz Studio scene (TC7.1)
     Scene.clear();
@@ -26,24 +26,24 @@ function Run_TestCase_07(sTestAsset)
     var oBridge = new DzBridgeUnityAction();
 	if (oBridge == undefined)
 	{
-		print ("ERROR: could not instantiate DzBridgeUnityAction object.");
+		printToLog("ERROR: could not instantiate DzBridgeUnityAction object.");
 		return false;
-	}    
-    
+	}
+
     var wBridgeDialog = new DzBridgeUnityDialog();
 //    var wBridgeDialog = oBridge.getBridgeDialog();
 	if (wBridgeDialog == undefined)
 	{
-		print ("ERROR: could not instantiate DzBridgeUnityDialog object.");
+		printToLog("ERROR: could not instantiate DzBridgeUnityDialog object.");
 		return false;
 	}
 	var wSubdivDialog = new DzBridgeSubdivisionDialog(wBridgeDialog);
 //	var wSubdivDialog = oBridge.getSubdivisionDialog();
 	if (wSubdivDialog == undefined)
 	{
-		print ("ERROR: could not instantiate DzBridgeSubdivisionDialog object.");
+		printToLog("ERROR: could not instantiate DzBridgeSubdivisionDialog object.");
 		return false;
-	}    
+	}
 
 	//oBridge.setBridgeDialog(wBridgeDialog);
 	oBridge.setSubdivisionDialog(wSubdivDialog);
@@ -52,7 +52,7 @@ function Run_TestCase_07(sTestAsset)
 
     // Set Subdivision Level 2 (TC7.8)
     var nodeSelection = Scene.getPrimarySelection();
- 
+
     if (wSubdivDialog != undefined)
     {
 	    wSubdivDialog.setSubdivisionLevelByNode(nodeSelection, SubdivisionTestLevel);
@@ -65,20 +65,20 @@ function Run_TestCase_07(sTestAsset)
     // check for expected root folder, export folder and export filename
     if (sDtuFilename.lower().find(pathToDUFolder + "/genesis81female.dtu") == -1)
     {
-        print ("Test Case 7 FAILED: Incorrect output DTU filename");
+        printToLog("Test Case 7 FAILED: Incorrect output DTU filename");
         return false;
     }
 
-    print("Exported DTU = " + sDtuFilename);
+    printToLog("Exported DTU = " + sDtuFilename);
     if (Validate_DTU_file(sDtuFilename) == false)
     {
         return false;
     }
     var oDTU = Load_DTU_file(sDtuFilename);
-    print("DTU Subdivision Settings: " + oDTU.Subdivisions[0]["Asset Name"] + ": Subdivision Level=" + oDTU.Subdivisions[0]["Value"]);
+    printToLog("DTU Subdivision Settings: " + oDTU.Subdivisions[0]["Asset Name"] + ": Subdivision Level=" + oDTU.Subdivisions[0]["Value"]);
 	if (oDTU.Subdivisions[0]["Value"] != SubdivisionTestLevel)
 	{
-		print("Test Case 7 FAILED: Incorrect Subdivision Level set in DTU.");
+		printToLog("Test Case 7 FAILED: Incorrect Subdivision Level set in DTU.");
 		return false;
 	}
 
@@ -86,7 +86,7 @@ function Run_TestCase_07(sTestAsset)
     sFbxFilename = sFbxFilename.replace(".dtu",".fbx");
     // Check for Fbx HD
     var sFbxFilenameHD = sFbxFilename;
-    print("Exported FBX HD = " + sFbxFilenameHD);
+    printToLog("Exported FBX HD = " + sFbxFilenameHD);
     if (Validate_FBX_file(sFbxFilenameHD) == false)
     {
         return false;
@@ -94,7 +94,7 @@ function Run_TestCase_07(sTestAsset)
     // Check for Fbx_base
     var sFbxFilenameHD = sFbxFilename;
     sFbxFilenameHD = sFbxFilenameHD.replace(".fbx","_base.fbx");
-    print("Exported FBX base = " + sFbxFilenameHD);
+    printToLog("Exported FBX base = " + sFbxFilenameHD);
     if (Validate_FBX_file(sFbxFilenameHD) == false)
     {
         return false;
