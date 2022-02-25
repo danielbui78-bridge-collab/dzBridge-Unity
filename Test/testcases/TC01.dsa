@@ -31,7 +31,7 @@ function Run_TestCase_01(sTestAsset)
 	// check for expected root folder, export folder and export filename (TC1.10)
 	if (sDtuFilename.lower().find(pathToDUFolder + "/genesis8female.dtu") == -1)
 	{
-		printToLog("Test Case 1 FAILED: Incorrect output DTU filename");
+		printToLog("Test Case 1 FAILED: Incorrect output DTU filename, output filename=[" + sReturnString + "], expected filename=[" + pathToDUFolder + "/genesis8female.dtu]");
 		return false;
 	}
 
