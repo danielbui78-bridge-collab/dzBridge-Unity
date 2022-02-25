@@ -41,7 +41,13 @@ function logToJson(testCase, result)
 		var TestCase = testCase;
         var file = new DzFile(sJsonFile);
         file.open( DzFile.Append);
-        file.write(JSON.stringify({"TestCase ID": TestCase, "Test Result": result, "Test Log":readLogText()}, null, "\t"));
+        file.write(
+        	JSON.stringify({
+        	"TestCase ID": TestCase,
+        	"Test Result": result,
+        	"Time": Date(),
+        	"Test Log":readLogText()
+        	}, null, "\t"));
         file.write("\n");
         file.close();
 		clearLog();
@@ -258,72 +264,15 @@ function Validate_LIE_Textures(nNumLIETextures, sNameFilters, sDTUpath)
 /////////////////////////////////////
 function Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList)
 {
-	var obj = new DzUnrealAction()
-	obj.resetToDefaults();
-	obj.setNonInteractiveMode(1);
+//	var oBridge = new DzUnrealAction();
+	var oBridge = new DzBridgeUnityAction();
+//	var oBridge = new DzBridgeScriptableAction();
+	oBridge.resetToDefaults();
 
-	// obj.UseRelativePaths: set true for relative Daz Library runtime paths
-	//                       set false for absolute filepath
-	// Default to true to work with interactive mode
-	obj.setUseRelativePaths(false);
-	// obj.UseRelativePaths = true;
+	var sResultString = Run_Exporter2(oBridge, sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
 
-	// obj.ExportFilename: filename stem for DTU and FBX file
-	// Can not have spaces or hyphen.  Underscore is OK
-	// Leave blank to default to sanitized Scene Node Label
-	if (sExportFilename != "")
-	{
-		obj.setExportFilename(sExportFilename);
-	}
-
-	// obj.AssetType: "SkeletalMesh" [DEFAULT], "StaticMesh", "Animation", "Environment", "Pose"
-	if (sAssetType != "")
-	{
-		obj.setAssetType(sAssetType);
-	}
-
-	// obj.RootFolder: path to destination root
-	// If folder or path doesn't exist, it will be created
-	if (sRootFolder != "")
-	{
-		obj.setRootFolder(sRootFolder);
-	}
-
-	// obj.ExportFolder: name folder containing DTU/FBX
-	// Leave blank to default to sanitized Scene Node Label like ExportFilename
-	if (sExportFolder != "")
-	{
-		obj.setExportFolder(sExportFolder);
-	}
-
-	// obj.ProductName: Daz Store Product Name (or anything you want), can have spaces & special characters
-	if (sProductName != "")
-	{
-		obj.setProductName(sProductName);
-	}
-
-	// obj.ProductComponentName: Friendly Name for component within Product
-	// Put frienldy pose name or material name here
-	if (sComponentName != "")
-	{
-		obj.setProductComponentName(sComponentName);
-	}
-
-	// obj.MorphList: String array of morphs to convert into blendshapes within FBX.
-	// Leave empty if you do not want to export any blendshapes.
-	//obj.MorphList = ["CTRLVictoria8_1", "FHMVictoria8_1", "FBMVictoria8_1"]
-	if (arrayMorphList.length > 0)
-	{
-		obj.setMorphList(arrayMorphList);
-	}
-
-	obj.executeAction()
-
-	var sReturnString = obj.getRootFolder() + "/" + obj.getExportFolder() + "/" + obj.getExportFilename() + ".dtu"
-
-	return sReturnString;
+	return sResultString;
 }
-
 
 // Run_Exporter2():
 // Description: Like Run_Exporter() but does not call resetToDefaults() and does not initialize DzUnrealAction()
