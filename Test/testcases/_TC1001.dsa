@@ -9,7 +9,7 @@ function Run_TestCase_1001(sTestAsset)
 	sComponentName = ""
 	arrayMorphList = []
 
-	print("Running Test Case 1001:")
+	printToLog("Running Test Case 1001:")
 
 	Scene.clear()
 	var oContentMgr = App.getContentMgr()
@@ -19,7 +19,7 @@ function Run_TestCase_1001(sTestAsset)
 	var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList)
 
 	var sDtuFilename = sReturnString
-	print("Exported DTU = " + sDtuFilename);
+	printToLog("Exported DTU = " + sDtuFilename);
 	if (Validate_DTU_file(sDtuFilename) == false)
 	{
 		return false;
@@ -27,7 +27,7 @@ function Run_TestCase_1001(sTestAsset)
 
 	var sFbxFilename = sDtuFilename;
 	sFbxFilename = sFbxFilename.replace(".dtu",".fbx");
-	print("Exported DTU = " + sFbxFilename);
+	printToLog("Exported FBX = " + sFbxFilename);
 
 	if (Validate_FBX_file(sFbxFilename) == false)
 	{

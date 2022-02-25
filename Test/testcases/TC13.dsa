@@ -4,13 +4,13 @@ function Run_TestCase_13(sTestAsset)
 {
     sExportFilename = "";
     sAssetType = "SkeletalMesh";
-    sRootFolder = "";
+    sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     sExportFolder = "TC13";
     sProductName = "";
     sComponentName = "";
     arrayMorphList = [];
-
-    print("Running Test Case 13:");
+	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
+    printToLog("Running Test Case 13:");
 
     // start with clean Daz Studio scene (TC13.1)
      Scene.clear();
@@ -20,18 +20,18 @@ function Run_TestCase_13(sTestAsset)
     var sFullPath = oContentMgr.findFile(sTestAsset);
     oContentMgr.openFile(sFullPath);
 
-    // Send to Unreal (TC13.8)
+    // Send to Unity (TC13.8)
     var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
 
     // check for expected root folder, export folder and export filename (TC13.10)
-    if (sDtuFilename.lower().find("/documents/daztounreal/tc13/genesis3female.dtu") == -1)
+    if (sDtuFilename.lower().find(pathToDUFolder + "/genesis3female.dtu") == -1)
     {
-        print ("Test Case 14 FAILED: Incorrect output DTU filename");
+        printToLog("Test Case 14 FAILED: Incorrect output DTU filename");
         return false;
     }
 
-    print("Exported DTU = " + sDtuFilename);
+    printToLog("Exported DTU = " + sDtuFilename);
     if (Validate_DTU_file(sDtuFilename) == false)
     {
         return false;
@@ -39,20 +39,20 @@ function Run_TestCase_13(sTestAsset)
 
     var sFbxFilename = sDtuFilename;
     sFbxFilename = sFbxFilename.replace(".dtu",".fbx");
-    print("Exported DTU = " + sFbxFilename);
+    printToLog("Exported FBX = " + sFbxFilename);
 
     if (Validate_FBX_file(sFbxFilename) == false)
     {
         return false;
     }
 
-    var arrNormalMapList = ["RyJeane_armsB_1004_nm.png", "RyJeane_eyesB_1007_nm.png", "RyJeane_faceB_1001_nm.png",
+  /*  var arrNormalMapList = ["RyJeane_armsB_1004_nm.png", "RyJeane_eyesB_1007_nm.png", "RyJeane_faceB_1001_nm.png",
                         "RyJeane_legsB_1003_nm.png", "RyJeane_mouthB_1005_nm.png", "RyJeane_torsoB_1002_nm.png"];
     var sDTUpath = DzFileInfo(sDtuFilename).path();
     if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
     {
         return false;
-    }
+    }*/
 
     return true;
 }

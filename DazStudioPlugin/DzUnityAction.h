@@ -4,32 +4,32 @@
 #include <dzjsonwriter.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qtextstream.h>
-#include <DzRuntimePluginAction.h>
+#include <DzBridgeAction.h>
 #include "DzUnityDialog.h"
 
+class UnitTest_DzUnityAction;
 
-class DzBridgeUnityAction : public DzRuntimePluginAction {
+class DzUnityAction : public DzBridgeAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
-	 Q_PROPERTY(DzBridgeUnityDialog* BridgeDialog READ getBridgeDialog)
-
 public:
-	DzBridgeUnityAction();
+	DzUnityAction();
 
-	void setInstallUnityFiles(bool arg) { InstallUnityFiles = arg; }
-	bool getInstallUnityFiles() { return InstallUnityFiles; }
-	DzBridgeUnityDialog* getBridgeDialog() { return BridgeDialog; }
-
-	QString ProjectFolder;
+	void setInstallUnityFiles(bool arg) { m_bInstallUnityFiles = arg; }
+	bool getInstallUnityFiles() { return m_bInstallUnityFiles; }
 
 protected:
-	 DzBridgeUnityDialog* BridgeDialog;
-	 bool InstallUnityFiles;
+	 bool m_bInstallUnityFiles;
 
 	 void executeAction();
-	 Q_INVOKABLE bool CreateUI();
-	 Q_INVOKABLE void WriteConfiguration();
-	 Q_INVOKABLE void SetExportOptions(DzFileIOSettings& ExportOptions);
-	 Q_INVOKABLE QString CreateUnityFiles(bool replace = true);
+	 Q_INVOKABLE bool createUI();
+	 Q_INVOKABLE void writeConfiguration();
+	 Q_INVOKABLE void setExportOptions(DzFileIOSettings& ExportOptions);
+	 Q_INVOKABLE QString createUnityFiles(bool replace = true);
+	 QString readGuiRootFolder();
+
+#ifdef UNITTEST_DZBRIDGE
+	friend class UnitTest_DzUnityAction;
+#endif
 
 };

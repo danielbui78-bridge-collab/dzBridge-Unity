@@ -3,3 +3,5 @@ out
 build
 CMakeSettings.json
 .DS_Store
+Test/Results/*.json
+Test/Results/*.txt

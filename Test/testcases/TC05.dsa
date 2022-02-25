@@ -4,13 +4,12 @@ function Run_TestCase_05(sTestAsset)
 {
     sExportFilename = "";
     sAssetType = "SkeletalMesh";
-    sRootFolder = "";
+    sRootFolder = DzDir("").homePath() + "/Documents/DazToUnity";
     sExportFolder = "";
     sProductName = "";
     sComponentName = "";
     arrayMorphList = [];
-
-    print("Running Test Case 5:");
+    printToLog("Running Test Case 5:");
 
     // start with clean Daz Studio scene (TC5.1)
     Scene.clear();
@@ -25,18 +24,18 @@ function Run_TestCase_05(sTestAsset)
     // Use IntermediateFolder UI textbox instead of sRootFolder
     sRootFolder = "C:/CustomRoot";
 
-    // Send to Unreal with default settings (TC5.9)
+    // Send to Unity with default settings (TC5.9)
     var sReturnString = Run_Exporter(sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
 
     // check for expected root folder, export folder and export filename (TC5.11)
     if (sDtuFilename.lower().find("/customroot/genesis81female/genesis81female.dtu") == -1)
     {
-        print ("Test Case 5 FAILED: Incorrect output DTU filename");
+        printToLog("Test Case 5 FAILED: Incorrect output DTU filename");
         return false;
     }
 
-    print("Exported DTU = " + sDtuFilename);
+    printToLog("Exported DTU = " + sDtuFilename);
     if (Validate_DTU_file(sDtuFilename) == false)
     {
         return false;
@@ -44,7 +43,7 @@ function Run_TestCase_05(sTestAsset)
 
     var sFbxFilename = sDtuFilename;
     sFbxFilename = sFbxFilename.replace(".dtu",".fbx");
-    print("Exported DTU = " + sFbxFilename);
+    printToLog("Exported FBX = " + sFbxFilename);
 
     if (Validate_FBX_file(sFbxFilename) == false)
     {
@@ -52,13 +51,13 @@ function Run_TestCase_05(sTestAsset)
     }
 
 	// check for normal maps
-	var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
+	/*var arrNormalMapList = ["G8_1FBaseBodyMapB_1003_nm.png", "G8_1FBaseFaceMapB_1001_nm.png",
                 "G8_1FBaseHeadMapB_1002_nm.png", "G8FBaseArmsMapB_1004_nm.png", "G8FBaseLegsMapB_1003_nm.png"];
 	var sDTUpath = DzFileInfo(sDtuFilename).path();
 	if (Validate_NormalMaps(arrNormalMapList, sDTUpath) == false)
 	{
 		return false;
-	}
+	}*/
 
     return true;
 }

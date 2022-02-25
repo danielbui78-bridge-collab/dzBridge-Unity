@@ -26,37 +26,38 @@
 #include "dzfacegroup.h"
 #include "dzprogress.h"
 
-#include "DzUnityDialog.h"
 #include "DzUnityAction.h"
+#include "DzUnityDialog.h"
+#include "DzBridgeMorphSelectionDialog.h"
+#include "DzBridgeSubdivisionDialog.h"
 
 #ifdef WIN32
-	#include <shellapi.h>
+#include <shellapi.h>
 #endif
 
 
-DzBridgeUnityAction::DzBridgeUnityAction() :
-	 DzRuntimePluginAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
+DzUnityAction::DzUnityAction() :
+	DzBridgeAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
 {
-	 BridgeDialog = nullptr;
-	 NonInteractiveMode = 0;
-	 AssetType = QString("SkeletalMesh");
-	 //Setup Icon
-	 QString iconName = "icon";
-	 QPixmap basePixmap = QPixmap::fromImage(getEmbeddedImage(iconName.toLatin1()));
-	 QIcon icon;
-	 icon.addPixmap(basePixmap, QIcon::Normal, QIcon::Off);
-	 QAction::setIcon(icon);
+	m_nNonInteractiveMode = 0;
+	m_sAssetType = QString("SkeletalMesh");
+	//Setup Icon
+	QString iconName = "icon";
+	QPixmap basePixmap = QPixmap::fromImage(getEmbeddedImage(iconName.toLatin1()));
+	QIcon icon;
+	icon.addPixmap(basePixmap, QIcon::Normal, QIcon::Off);
+	QAction::setIcon(icon);
 
 }
 
-bool DzBridgeUnityAction::CreateUI()
+bool DzUnityAction::createUI()
 {
 	// Check if the main window has been created yet.
 	// If it hasn't, alert the user and exit early.
 	DzMainWindow* mw = dzApp->getInterface();
 	if (!mw)
 	{
-		if (NonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
+		if (m_nNonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"),
 			tr("The main window has not been created yet."), QMessageBox::Ok);
 
 		return false;
@@ -65,147 +66,243 @@ bool DzBridgeUnityAction::CreateUI()
 	// m_subdivisionDialog creation REQUIRES valid Character or Prop selected
 	if (dzScene->getNumSelectedNodes() != 1)
 	{
-		if (NonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
+		if (m_nNonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"),
 			tr("Please select one Character or Prop to send."), QMessageBox::Ok);
 
 		return false;
 	}
 
 	 // Create the dialog
-	if (!BridgeDialog)
+	if (!m_bridgeDialog)
 	{
-		BridgeDialog = new DzBridgeUnityDialog(mw);
+		m_bridgeDialog = new DzUnityDialog(mw);
 	}
 	else
 	{
-		BridgeDialog->resetToDefaults();
-		BridgeDialog->loadSavedSettings();
+		DzUnityDialog* unityDialog = qobject_cast<DzUnityDialog*>(m_bridgeDialog);
+		if (unityDialog)
+		{
+			unityDialog->resetToDefaults();
+			unityDialog->loadSavedSettings();
+		}
 	}
-	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(BridgeDialog);
-	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(BridgeDialog);
+
+	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(m_bridgeDialog);
+	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
 
 	return true;
 }
 
-void DzBridgeUnityAction::executeAction()
+void DzUnityAction::executeAction()
 {
+	// CreateUI() disabled for debugging -- 2022-Feb-25
+	/*
+		 // Create and show the dialog. If the user cancels, exit early,
+		 // otherwise continue on and do the thing that required modal
+		 // input from the user.
+		 if (createUI() == false)
+			 return;
+	*/
 
-	 // Create and show the dialog. If the user cancels, exit early,
-	 // otherwise continue on and do the thing that required modal
-	 // input from the user.
-	 if (CreateUI() == false)
-		 return;
+	// Check if the main window has been created yet.
+	// If it hasn't, alert the user and exit early.
+	DzMainWindow* mw = dzApp->getInterface();
+	if (!mw)
+	{
+		if (m_nNonInteractiveMode == 0)
+		{
+			QMessageBox::warning(0, tr("Error"),
+				tr("The main window has not been created yet."), QMessageBox::Ok);
+		}
+		return;
+	}
 
-	 // If the Accept button was pressed, start the export
-	 int dlgResult = 0;
-	 if (NonInteractiveMode == 0)
-	 {
-		 dlgResult = BridgeDialog->exec();
-	 }
-	 if (NonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
-	 {
-		  // DB 2021-10-11: Progress Bar
-		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 5 );
+	// Create and show the dialog. If the user cancels, exit early,
+	// otherwise continue on and do the thing that required modal
+	// input from the user.
+	if (dzScene->getNumSelectedNodes() != 1)
+	{
+		if (m_nNonInteractiveMode == 0)
+		{
+			QMessageBox::warning(0, tr("Error"),
+				tr("Please select one Character or Prop to send."), QMessageBox::Ok);
+		}
+		return;
+	}
 
-		  // Read Common GUI values
-		  readGUI(BridgeDialog);
+	// Create the dialog
+	if (m_bridgeDialog == nullptr)
+	{
+		m_bridgeDialog = new DzUnityDialog(mw);
+	}
+	else
+	{
+		if (m_nNonInteractiveMode == 0)
+		{
+			m_bridgeDialog->resetToDefaults();
+			m_bridgeDialog->loadSavedSettings();
+		}
+	}
 
-		  // Read Custom GUI values
-		  InstallUnityFiles = BridgeDialog->installUnityFilesCheckBox->isChecked();
-		  // custom animation filename correction for Unity
-		  if (AssetType == "Animation")
-		  {
-			  if (NonInteractiveMode == 0)
-			  {
-				  // correct CharacterFolder
-				  ExportFolder = CharacterName.left(CharacterName.indexOf("@"));
-				  DestinationPath = RootFolder + "/" + ExportFolder + "/";
-				  // correct animation filename
-				  CharacterFBX = DestinationPath + CharacterName + ".fbx";
-			  }
-		  }
+	// Prepare member variables when not using GUI
+	if (m_nNonInteractiveMode == 1)
+	{
+//		if (m_sRootFolder != "") m_bridgeDialog->getIntermediateFolderEdit()->setText(m_sRootFolder);
 
-		  //Create Daz3D folder if it doesn't exist
-		  QDir dir;
-		  dir.mkpath(RootFolder);
-		  exportProgress->step();
+		if (m_aMorphListOverride.isEmpty() == false)
+		{
+			m_bEnableMorphs = true;
+			m_sMorphSelectionRule = m_aMorphListOverride.join("\n1\n");
+			m_sMorphSelectionRule += "\n1\n.CTRLVS\n2\nAnything\n0";
+			if (m_morphSelectionDialog == nullptr)
+			{
+				m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
+			}
+			m_mMorphNameToLabel.clear();
+			foreach(QString morphName, m_aMorphListOverride)
+			{
+				QString label = m_morphSelectionDialog->GetMorphLabelFromName(morphName);
+				m_mMorphNameToLabel.insert(morphName, label);
+			}
+		}
+		else
+		{
+			m_bEnableMorphs = false;
+			m_sMorphSelectionRule = "";
+			m_mMorphNameToLabel.clear();
+		}
 
-		  exportHD(exportProgress);
+	}
 
-		  // DB 2021-10-11: Progress Bar
-		  exportProgress->finish();
+	// If the Accept button was pressed, start the export
+	int dlgResult = -1;
+	if (m_nNonInteractiveMode == 0)
+	{
+		dlgResult = m_bridgeDialog->exec();
+	}
+	if (m_nNonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
+	{
+		// DB 2021-10-11: Progress Bar
+		DzProgress* exportProgress = new DzProgress("Sending to Unity...", 10);
 
-		  // DB 2021-09-02: messagebox "Export Complete"
-		  if (NonInteractiveMode == 0)
-		  {
-			  QMessageBox::information(0, "DazBridge: Unity",
-				  tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
-			  if (InstallUnityFiles)
-			  {
-				  QString destPath = CreateUnityFiles(true);
+		// Read Common GUI values
+		readGui(m_bridgeDialog);
+
+		// Read Custom GUI values
+		DzUnityDialog* unityDialog = qobject_cast<DzUnityDialog*>(m_bridgeDialog);
+		if (unityDialog)
+			m_bInstallUnityFiles = unityDialog->installUnityFilesCheckBox->isChecked();
+		// custom animation filename correction for Unity
+		if (m_sAssetType == "Animation")
+		{
+			if (m_nNonInteractiveMode == 0)
+			{
+				// correct CharacterFolder
+				m_sExportSubfolder = m_sAssetName.left(m_sAssetName.indexOf("@"));
+				m_sDestinationPath = m_sRootFolder + "/" + m_sExportSubfolder + "/";
+				// correct animation filename
+				m_sDestinationFBX = m_sDestinationPath + m_sAssetName + ".fbx";
+			}
+		}
+
+		//Create Daz3D folder if it doesn't exist
+		QDir dir;
+		dir.mkpath(m_sRootFolder);
+		exportProgress->step();
+
+		exportHD(exportProgress);
+
+		// DB 2021-10-11: Progress Bar
+		exportProgress->finish();
+
+		// DB 2021-09-02: messagebox "Export Complete"
+		if (m_nNonInteractiveMode == 0)
+		{
+			QMessageBox::information(0, "DazBridge: Unity",
+				tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
+			if (m_bInstallUnityFiles)
+			{
+				QString destPath = createUnityFiles(true);
 #ifdef WIN32
-				  ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
+				ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
 #endif
-			  }
-		  }
+			}
+		}
 
-	 }
+	}
 }
 
-QString DzBridgeUnityAction::CreateUnityFiles(bool replace)
+QString DzUnityAction::createUnityFiles(bool replace)
 {
-	 if (!InstallUnityFiles)
-		  return "";
+	if (!m_bInstallUnityFiles)
+		return "";
 
-	 QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
-	 QFile srcFile(srcPath);
-	 QString destPath = RootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
-	 this->CopyFile(&srcFile, &destPath, replace);
-	 srcFile.close();
+	QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
+	QFile srcFile(srcPath);
+	QString destPath = m_sRootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
+	this->copyFile(&srcFile, &destPath, replace);
+	srcFile.close();
 
-	 return destPath;
+	return destPath;
 }
 
-void DzBridgeUnityAction::WriteConfiguration()
+void DzUnityAction::writeConfiguration()
 {
-	 QString DTUfilename = DestinationPath + CharacterName + ".dtu";
-	 QFile DTUfile(DTUfilename);
-	 DTUfile.open(QIODevice::WriteOnly);
-	 DzJsonWriter writer(&DTUfile);
-	 writer.startObject(true);
+	QString DTUfilename = m_sDestinationPath + m_sAssetName + ".dtu";
+	QFile DTUfile(DTUfilename);
+	DTUfile.open(QIODevice::WriteOnly);
+	DzJsonWriter writer(&DTUfile);
+	writer.startObject(true);
 
-	 writeDTUHeader(writer);
+	writeDTUHeader(writer);
 
-	 if (AssetType.toLower().contains("mesh"))
-	 {
-		 writeAllMaterials(Selection, writer);
-		 writeAllMorphs(writer);
-		 writeAllSubdivisions(writer);
-		 writeAllDForceInfo(Selection, writer);
-	 }
+	if (m_sAssetType.toLower().contains("mesh"))
+	{
+		writeAllMaterials(m_pSelectedNode, writer);
+		writeAllMorphs(writer);
+		writeAllSubdivisions(writer);
+		writeAllDforceInfo(m_pSelectedNode, writer);
+	}
 
-	 if (AssetType == "Pose")
-	 {
-		 writeAllPoses(writer);
-	 }
+	if (m_sAssetType == "Pose")
+	{
+		writeAllPoses(writer);
+	}
 
-	 if (AssetType == "Environment")
-	 {
-		 writeEnvironment(writer);
-	 }
+	if (m_sAssetType == "Environment")
+	{
+		writeEnvironment(writer);
+	}
 
-	 writer.finishObject();
-	 DTUfile.close();
+	writer.finishObject();
+	DTUfile.close();
 }
 
 // Setup custom FBX export options
-void DzBridgeUnityAction::SetExportOptions(DzFileIOSettings& ExportOptions)
+void DzUnityAction::setExportOptions(DzFileIOSettings& ExportOptions)
 {
-	 ExportOptions.setBoolValue("doEmbed", false);
-	 ExportOptions.setBoolValue("doDiffuseOpacity", false);
-	 ExportOptions.setBoolValue("doCopyTextures", false);
+	ExportOptions.setBoolValue("doEmbed", false);
+	ExportOptions.setBoolValue("doDiffuseOpacity", false);
+	ExportOptions.setBoolValue("doCopyTextures", false);
 
 }
 
+QString DzUnityAction::readGuiRootFolder()
+{
+	QString rootFolder = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "DazToUnity";
+
+	if (m_bridgeDialog)
+	{
+		QLineEdit* assetsFolderEdit = nullptr;
+		DzUnityDialog* unityDialog = qobject_cast<DzUnityDialog*>(m_bridgeDialog);
+
+		if (unityDialog)
+			assetsFolderEdit = unityDialog->getAssetsFolderEdit();
+
+		if (assetsFolderEdit)
+			rootFolder = assetsFolderEdit->text().replace("\\", "/") + "/Daz3D";
+	}
+	return rootFolder;
+}
 
 #include "moc_DzUnityAction.cpp"
