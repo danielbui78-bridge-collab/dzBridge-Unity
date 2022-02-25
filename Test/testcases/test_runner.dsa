@@ -28,6 +28,9 @@ function main()
 {
 	var aTCResults = new Array(16);
 
+	// perform a "priming" run
+	Run_TestCase_02("/people/genesis 8 female/genesis 8.1 basic female.duf");
+
 	clearLog();
 	var i=0;
 	aTCResults[i] = logToJson("TC01", Run_TestCase_01("/people/genesis 8 female/genesis 8 basic female.duf"));
