@@ -40,8 +40,8 @@ DzBridgeUnityAction::DzBridgeUnityAction() :
 	 DzBridgeAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
 {
 	 m_bridgeDialog = nullptr;
-	 NonInteractiveMode = 0;
-	 AssetType = QString("SkeletalMesh");
+	 m_nNonInteractiveMode = 0;
+	 m_sAssetType = QString("SkeletalMesh");
 	 //Setup Icon
 	 QString iconName = "icon";
 	 QPixmap basePixmap = QPixmap::fromImage(getEmbeddedImage(iconName.toLatin1()));
@@ -58,7 +58,7 @@ bool DzBridgeUnityAction::createUI()
 	DzMainWindow* mw = dzApp->getInterface();
 	if (!mw)
 	{
-		if (NonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
+		if (m_nNonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
 			tr("The main window has not been created yet."), QMessageBox::Ok);
 
 		return false;
@@ -67,7 +67,7 @@ bool DzBridgeUnityAction::createUI()
 	// m_subdivisionDialog creation REQUIRES valid Character or Prop selected
 	if (dzScene->getNumSelectedNodes() != 1)
 	{
-		if (NonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
+		if (m_nNonInteractiveMode == 0) QMessageBox::warning(0, tr("Error"), 
 			tr("Please select one Character or Prop to send."), QMessageBox::Ok);
 
 		return false;
@@ -105,14 +105,14 @@ void DzBridgeUnityAction::executeAction()
 
 	 // If the Accept button was pressed, start the export
 	 int dlgResult = 0;
-	 if (NonInteractiveMode == 0)
+	 if (m_nNonInteractiveMode == 0)
 	 {
 		 dlgResult = m_bridgeDialog->exec();
 	 }
-	 if (NonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
+	 if (m_nNonInteractiveMode == 1 || dlgResult == QDialog::Accepted)
 	 {
 		  // DB 2021-10-11: Progress Bar
-		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 5 );
+		  DzProgress* exportProgress = new DzProgress( "Sending to Unity...", 10 );
 
 		  // Read Common GUI values
 		  readGui(m_bridgeDialog);
@@ -120,23 +120,23 @@ void DzBridgeUnityAction::executeAction()
 		  // Read Custom GUI values
 		  DzBridgeUnityDialog* unityDialog = qobject_cast<DzBridgeUnityDialog*>(m_bridgeDialog);
 		  if (unityDialog)
-			InstallUnityFiles = unityDialog->installUnityFilesCheckBox->isChecked();
+			m_bInstallUnityFiles = unityDialog->installUnityFilesCheckBox->isChecked();
 		  // custom animation filename correction for Unity
-		  if (AssetType == "Animation")
+		  if (m_sAssetType == "Animation")
 		  {
-			  if (NonInteractiveMode == 0)
+			  if (m_nNonInteractiveMode == 0)
 			  {
 				  // correct CharacterFolder
-				  ExportFolder = CharacterName.left(CharacterName.indexOf("@"));
-				  DestinationPath = RootFolder + "/" + ExportFolder + "/";
+				  m_sExportSubfolder = m_sAssetName.left(m_sAssetName.indexOf("@"));
+				  m_sDestinationPath = m_sRootFolder + "/" + m_sExportSubfolder + "/";
 				  // correct animation filename
-				  CharacterFBX = DestinationPath + CharacterName + ".fbx";
+				  m_sDestinationFBX = m_sDestinationPath + m_sAssetName + ".fbx";
 			  }
 		  }
 
 		  //Create Daz3D folder if it doesn't exist
 		  QDir dir;
-		  dir.mkpath(RootFolder);
+		  dir.mkpath(m_sRootFolder);
 		  exportProgress->step();
 
 		  exportHD(exportProgress);
@@ -145,11 +145,11 @@ void DzBridgeUnityAction::executeAction()
 		  exportProgress->finish();
 
 		  // DB 2021-09-02: messagebox "Export Complete"
-		  if (NonInteractiveMode == 0)
+		  if (m_nNonInteractiveMode == 0)
 		  {
 			  QMessageBox::information(0, "DazBridge: Unity",
 				  tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
-			  if (InstallUnityFiles)
+			  if (m_bInstallUnityFiles)
 			  {
 				  QString destPath = createUnityFiles(true);
 #ifdef WIN32
@@ -163,12 +163,12 @@ void DzBridgeUnityAction::executeAction()
 
 QString DzBridgeUnityAction::createUnityFiles(bool replace)
 {
-	 if (!InstallUnityFiles)
+	 if (!m_bInstallUnityFiles)
 		  return "";
 
 	 QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
 	 QFile srcFile(srcPath);
-	 QString destPath = RootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
+	 QString destPath = m_sRootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
 	 this->copyFile(&srcFile, &destPath, replace);
 	 srcFile.close();
 
@@ -177,7 +177,7 @@ QString DzBridgeUnityAction::createUnityFiles(bool replace)
 
 void DzBridgeUnityAction::writeConfiguration()
 {
-	 QString DTUfilename = DestinationPath + CharacterName + ".dtu";
+	 QString DTUfilename = m_sDestinationPath + m_sAssetName + ".dtu";
 	 QFile DTUfile(DTUfilename);
 	 DTUfile.open(QIODevice::WriteOnly);
 	 DzJsonWriter writer(&DTUfile);
@@ -185,20 +185,20 @@ void DzBridgeUnityAction::writeConfiguration()
 
 	 writeDTUHeader(writer);
 
-	 if (AssetType.toLower().contains("mesh"))
+	 if (m_sAssetType.toLower().contains("mesh"))
 	 {
-		 writeAllMaterials(Selection, writer);
+		 writeAllMaterials(m_pSelectedNode, writer);
 		 writeAllMorphs(writer);
 		 writeAllSubdivisions(writer);
-		 writeAllDforceInfo(Selection, writer);
+		 writeAllDforceInfo(m_pSelectedNode, writer);
 	 }
 
-	 if (AssetType == "Pose")
+	 if (m_sAssetType == "Pose")
 	 {
 		 writeAllPoses(writer);
 	 }
 
-	 if (AssetType == "Environment")
+	 if (m_sAssetType == "Environment")
 	 {
 		 writeEnvironment(writer);
 	 }

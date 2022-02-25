@@ -12,20 +12,14 @@ class UnitTest_DzBridgeUnityAction;
 class DzBridgeUnityAction : public DzBridgeAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
-//	 Q_PROPERTY(DzBridgeUnityDialog* BridgeDialog READ getBridgeDialog)
-
 public:
 	DzBridgeUnityAction();
 
-	void setInstallUnityFiles(bool arg) { InstallUnityFiles = arg; }
-	bool getInstallUnityFiles() { return InstallUnityFiles; }
-//	DzBridgeUnityDialog* getBridgeDialog() { return BridgeDialog; }
-
-	QString ProjectFolder;
+	void setInstallUnityFiles(bool arg) { m_bInstallUnityFiles = arg; }
+	bool getInstallUnityFiles() { return m_bInstallUnityFiles; }
 
 protected:
-//	 DzBridgeUnityDialog* BridgeDialog;
-	 bool InstallUnityFiles;
+	 bool m_bInstallUnityFiles;
 
 	 void executeAction();
 	 Q_INVOKABLE bool createUI();
