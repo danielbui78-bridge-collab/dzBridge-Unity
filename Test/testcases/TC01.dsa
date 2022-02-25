@@ -11,7 +11,6 @@ function Run_TestCase_01(sTestAsset)
 	sComponentName = "";
 	arrayMorphList = [];
 	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
-	pathToDUFolder = "/documents/daztounity/" + sExportFolder.lower();
 
 	printToLog("Running Test Case 1:");
 
