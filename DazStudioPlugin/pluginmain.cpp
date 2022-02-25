@@ -37,8 +37,8 @@ Bridge Collaboration Project<br><br>\
 <a href = \"https://github.com/danielbui78-bridge-collab/DazToRuntime/tree/unreal-main\">Github</a><br><br>"
 ).arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(PLUGIN_REV).arg(PLUGIN_BUILD));
 
-DZ_PLUGIN_CLASS_GUID(DzBridgeUnityAction, 2C2AA695-652C-4FA9-BE48-E0AB954E28AB);
-DZ_PLUGIN_CUSTOM_CLASS_GUID(DzBridgeUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);
+DZ_PLUGIN_CLASS_GUID(DzUnityAction, 2C2AA695-652C-4FA9-BE48-E0AB954E28AB);
+DZ_PLUGIN_CUSTOM_CLASS_GUID(DzUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);
 
 
 static QWidget* GetParentArg0(const QVariantList& args)
@@ -54,14 +54,14 @@ static QWidget* GetParentArg0(const QVariantList& args)
 	return parent;
 }
 
-QObject* DzBridgeUnityDialogFactory::createInstance(const QVariantList& args) const
+QObject* DzUnityDialogFactory::createInstance(const QVariantList& args) const
 {
 	QWidget* parent = GetParentArg0(args);
-	return (QObject*) new DzBridgeUnityDialog(parent);
+	return (QObject*) new DzUnityDialog(parent);
 }
-QObject* DzBridgeUnityDialogFactory::createInstance() const
+QObject* DzUnityDialogFactory::createInstance() const
 {
-	return (QObject*) new DzBridgeUnityDialog();
+	return (QObject*) new DzUnityDialog();
 }
 
 #ifdef UNITTEST_DZBRIDGE
@@ -69,7 +69,7 @@ QObject* DzBridgeUnityDialogFactory::createInstance() const
 #include "UnitTest_DzUnityAction.h"
 #include "UnitTest_DzUnityDialog.h"
 
-DZ_PLUGIN_CLASS_GUID(UnitTest_DzBridgeUnityAction, 17637434-188f-46eb-81e2-8829f2440742);
-DZ_PLUGIN_CLASS_GUID(UnitTest_DzBridgeUnityDialog, ca9c9f54-236d-4ab6-bca3-1cf6c3f93f6a);
+DZ_PLUGIN_CLASS_GUID(UnitTest_DzUnityAction, 17637434-188f-46eb-81e2-8829f2440742);
+DZ_PLUGIN_CLASS_GUID(UnitTest_DzUnityDialog, ca9c9f54-236d-4ab6-bca3-1cf6c3f93f6a);
 
 #endif

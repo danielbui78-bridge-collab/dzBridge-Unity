@@ -37,14 +37,14 @@ Local definitions
 #define DAZ_TO_UNITY_PLUGIN_NAME "DazToUnity"
 
 
-DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
+DzUnityDialog::DzUnityDialog(QWidget* parent) :
 	 DzBridgeDialog(parent, DAZ_TO_UNITY_PLUGIN_NAME)
 {
-	 projectEdit = NULL;
-	 projectButton = NULL;
-	 assetsFolderEdit = NULL;
-	 assetsFolderButton = NULL;
-	 installUnityFilesCheckBox = NULL;
+	 projectEdit = nullptr;
+	 projectButton = nullptr;
+	 assetsFolderEdit = nullptr;
+	 assetsFolderButton = nullptr;
+	 installUnityFilesCheckBox = nullptr;
 
 	 settings = new QSettings("Daz 3D", "DazToUnity");
 
@@ -70,12 +70,11 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 	 // Intermediate Folder
 	 QHBoxLayout* assetsFolderLayout = new QHBoxLayout();
 	 assetsFolderEdit = new QLineEdit(this);
-	 connect(assetsFolderEdit, SIGNAL(textChanged(const QString&)), this, SLOT(HandleAssetFolderChanged(const QString&)));
 	 assetsFolderButton = new QPushButton("...", this);
-	 connect(assetsFolderButton, SIGNAL(released()), this, SLOT(HandleSelectAssetsFolderButton()));
-
 	 assetsFolderLayout->addWidget(assetsFolderEdit);
 	 assetsFolderLayout->addWidget(assetsFolderButton);
+	 connect(assetsFolderEdit, SIGNAL(textChanged(const QString&)), this, SLOT(HandleAssetFolderChanged(const QString&)));
+	 connect(assetsFolderButton, SIGNAL(released()), this, SLOT(HandleSelectAssetsFolderButton()));
 
 	 // Advanced Options
 	 installOrOverwriteUnityFilesLabel = new QLabel(tr("Install Unity Files"));
@@ -107,7 +106,7 @@ DzBridgeUnityDialog::DzBridgeUnityDialog(QWidget* parent) :
 
 }
 
-bool DzBridgeUnityDialog::loadSavedSettings()
+bool DzUnityDialog::loadSavedSettings()
 {
 	DzBridgeDialog::loadSavedSettings();
 
@@ -126,7 +125,7 @@ bool DzBridgeUnityDialog::loadSavedSettings()
 	return true;
 }
 
-void DzBridgeUnityDialog::resetToDefaults()
+void DzUnityDialog::resetToDefaults()
 {
 	DzBridgeDialog::resetToDefaults();
 
@@ -155,7 +154,7 @@ void DzBridgeUnityDialog::resetToDefaults()
 
 }
 
-void DzBridgeUnityDialog::HandleAssetFolderChanged(const QString& directoryName)
+void DzUnityDialog::HandleAssetFolderChanged(const QString& directoryName)
 {
 	// DB (2021-05-15): Check for presence of Daz3D folder, and set installUnityFiles if not present
 	if (QDir(directoryName + QDir::separator() + "Daz3D").exists())
@@ -176,7 +175,7 @@ void DzBridgeUnityDialog::HandleAssetFolderChanged(const QString& directoryName)
 
 }
 
-void DzBridgeUnityDialog::HandleSelectAssetsFolderButton()
+void DzUnityDialog::HandleSelectAssetsFolderButton()
 {
 	 // DB (2021-05-15): prepopulate with existing folder string
 	 QString directoryName = "/home";
@@ -224,12 +223,12 @@ void DzBridgeUnityDialog::HandleSelectAssetsFolderButton()
     
 }
 
-void DzBridgeUnityDialog::HandleInstallUnityFilesCheckBoxChange(int state)
+void DzUnityDialog::HandleInstallUnityFilesCheckBoxChange(int state)
 {
 	 settings->setValue("InstallUnityFiles", state == Qt::Checked);
 }
 
-void DzBridgeUnityDialog::HandleAssetTypeComboChange(int state)
+void DzUnityDialog::HandleAssetTypeComboChange(int state)
 {
 	QString assetNameString = assetNameEdit->text();
 

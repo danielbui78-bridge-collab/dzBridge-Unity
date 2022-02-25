@@ -7,13 +7,13 @@
 #include <DzBridgeAction.h>
 #include "DzUnityDialog.h"
 
-class UnitTest_DzBridgeUnityAction;
+class UnitTest_DzUnityAction;
 
-class DzBridgeUnityAction : public DzBridgeAction {
+class DzUnityAction : public DzBridgeAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
 public:
-	DzBridgeUnityAction();
+	DzUnityAction();
 
 	void setInstallUnityFiles(bool arg) { m_bInstallUnityFiles = arg; }
 	bool getInstallUnityFiles() { return m_bInstallUnityFiles; }
@@ -29,7 +29,7 @@ protected:
 	 QString readGuiRootFolder();
 
 #ifdef UNITTEST_DZBRIDGE
-	friend class UnitTest_DzBridgeUnityAction;
+	friend class UnitTest_DzUnityAction;
 #endif
 
 };
