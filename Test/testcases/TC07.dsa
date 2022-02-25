@@ -23,18 +23,18 @@ function Run_TestCase_07(sTestAsset)
     oContentMgr.openFile(sFullPath);
 
     // Create DzBridgeUnityAction and DzUnityDialog
-    var oBridge = new DzBridgeUnityAction();
+    var oBridge = new DzUnityAction();
 	if (oBridge == undefined)
 	{
-		printToLog("ERROR: could not instantiate DzBridgeUnityAction object.");
+		printToLog("ERROR: could not instantiate DzUnityAction object.");
 		return false;
 	}
 
-    var wBridgeDialog = new DzBridgeUnityDialog();
+    var wBridgeDialog = new DzUnityDialog();
 //    var wBridgeDialog = oBridge.getBridgeDialog();
 	if (wBridgeDialog == undefined)
 	{
-		printToLog("ERROR: could not instantiate DzBridgeUnityDialog object.");
+		printToLog("ERROR: could not instantiate DzUnityDialog object.");
 		return false;
 	}
 	var wSubdivDialog = new DzBridgeSubdivisionDialog(wBridgeDialog);
@@ -45,7 +45,7 @@ function Run_TestCase_07(sTestAsset)
 		return false;
 	}
 
-	//oBridge.setBridgeDialog(wBridgeDialog);
+	oBridge.setBridgeDialog(wBridgeDialog);
 	oBridge.setSubdivisionDialog(wSubdivDialog);
 
     wBridgeDialog.wSubdivisionEnabledCheckBox.setChecked(true);
@@ -61,6 +61,8 @@ function Run_TestCase_07(sTestAsset)
     // Send to Unity (TC7.10)
     var sReturnString = Run_Exporter2(oBridge, sExportFilename, sAssetType, sRootFolder, sExportFolder, sProductName, sComponentName, arrayMorphList);
     var sDtuFilename = sReturnString;
+
+    wBridgeDialog.wSubdivisionEnabledCheckBox.setChecked(false);
 
     // check for expected root folder, export folder and export filename
     if (sDtuFilename.lower().find(pathToDUFolder + "/genesis81female.dtu") == -1)
