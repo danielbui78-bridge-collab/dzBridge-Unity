@@ -4,12 +4,12 @@
 #include "DzUnityDialog.h"
 
 
-UnitTest_DzBridgeUnityDialog::UnitTest_DzBridgeUnityDialog()
+UnitTest_DzUnityDialog::UnitTest_DzUnityDialog()
 {
-	m_testObject = (QObject*) new DzBridgeUnityDialog();
+	m_testObject = (QObject*) new DzUnityDialog();
 }
 
-bool UnitTest_DzBridgeUnityDialog::runUnitTests()
+bool UnitTest_DzUnityDialog::runUnitTests()
 {
 	RUNTEST(_DzBridgeUnityDialog);
 	RUNTEST(addButton);
@@ -28,94 +28,94 @@ bool UnitTest_DzBridgeUnityDialog::runUnitTests()
 	return true;
 }
 
-bool UnitTest_DzBridgeUnityDialog::_DzBridgeUnityDialog(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::_DzBridgeUnityDialog(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(new DzBridgeUnityDialog());
+	TRY_METHODCALL(new DzUnityDialog());
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::addButton(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::addButton(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL_NULLPTR(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->addButton(nullptr));
+	TRY_METHODCALL_NULLPTR(qobject_cast<DzUnityDialog*>(m_testObject)->addButton(nullptr));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::addLayout(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::addLayout(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL_NULLPTR(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->addLayout(nullptr));
+	TRY_METHODCALL_NULLPTR(qobject_cast<DzUnityDialog*>(m_testObject)->addLayout(nullptr));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::addSpacing(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::addSpacing(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->addSpacing(0));
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->addSpacing(0));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::addStretch(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::addStretch(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->addStretch(0));
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->addStretch(0));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::addWidget(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::addWidget(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL_NULLPTR(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->addWidget(nullptr));
+	TRY_METHODCALL_NULLPTR(qobject_cast<DzUnityDialog*>(m_testObject)->addWidget(nullptr));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::getAssetsFolderEdit(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::getAssetsFolderEdit(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->getAssetsFolderEdit());
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->getAssetsFolderEdit());
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::resetToDefaults(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::resetToDefaults(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->resetToDefaults());
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->resetToDefaults());
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::loadSavedSettings(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::loadSavedSettings(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->loadSavedSettings());
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->loadSavedSettings());
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::HandleSelectAssetsFolderButton(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::HandleSelectAssetsFolderButton(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->HandleSelectAssetsFolderButton());
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->HandleSelectAssetsFolderButton());
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::HandleInstallUnityFilesCheckBoxChange(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::HandleInstallUnityFilesCheckBoxChange(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->HandleInstallUnityFilesCheckBoxChange(0));
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->HandleInstallUnityFilesCheckBoxChange(0));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::HandleAssetTypeComboChange(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::HandleAssetTypeComboChange(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->HandleAssetTypeComboChange(0));
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->HandleAssetTypeComboChange(0));
 	return bResult;
 }
 
-bool UnitTest_DzBridgeUnityDialog::HandleAssetFolderChanged(UnitTest::TestResult* testResult)
+bool UnitTest_DzUnityDialog::HandleAssetFolderChanged(UnitTest::TestResult* testResult)
 {
 	bool bResult = true;
-	TRY_METHODCALL(qobject_cast<DzBridgeUnityDialog*>(m_testObject)->HandleAssetFolderChanged(""));
+	TRY_METHODCALL(qobject_cast<DzUnityDialog*>(m_testObject)->HandleAssetFolderChanged(""));
 	return bResult;
 }
 

@@ -30,13 +30,13 @@ print("Unit Test Results (DzBridgeSubdivisionDialog): " + result);
 obj.writeAllTestResults(sOutputPath);
 */
 
-obj = new UnitTest_DzBridgeUnityAction();
+obj = new UnitTest_DzUnityAction();
 result = false;
 result = obj.runUnitTests();
 print("Unit Test Results (DzBridgeUnityAction): " + result);
 obj.writeAllTestResults(sOutputPath);
 
-obj = new UnitTest_DzBridgeUnityDialog();
+obj = new UnitTest_DzUnityDialog();
 result = false;
 result = obj.runUnitTests();
 print("Unit Test Results (DzBridgeUnityDialog): " + result);

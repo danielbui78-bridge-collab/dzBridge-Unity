@@ -4,10 +4,10 @@
 #include <QObject>
 #include "UnitTest.h"
 
-class UnitTest_DzBridgeUnityAction : public UnitTest {
+class UnitTest_DzUnityAction : public UnitTest {
 	Q_OBJECT
 public:
-	UnitTest_DzBridgeUnityAction();
+	UnitTest_DzUnityAction();
 	bool runUnitTests();
 
 private:
