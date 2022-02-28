@@ -60,6 +60,8 @@ target_link_libraries(${DZ_PLUGIN_TGT_NAME}
 	${DZSDK_QT_GUI_TARGET}
 	${DZSDK_QT_SCRIPT_TARGET}
 	${DZSDK_QT_NETWORK_TARGET}
+	${FBX_IMPORT_LIBS}
+	${OPENSUBDIV_LIB}
 )
 
 set_target_properties (${DZ_PLUGIN_TGT_NAME}
@@ -71,4 +73,5 @@ set_target_properties (${DZ_PLUGIN_TGT_NAME}
 target_compile_definitions(${DZ_PLUGIN_TGT_NAME}
 	PUBLIC
 	$<$<CONFIG:DEBUG>:UNITTEST_DZBRIDGE>
+	${DZBRIDGE_LIB_FLAGS}
 )
