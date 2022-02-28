@@ -36,6 +36,7 @@ Local definitions
 *****************************/
 #define DAZ_TO_UNITY_PLUGIN_NAME "DazToUnity"
 
+#include "dzbridge.h"
 
 DzUnityDialog::DzUnityDialog(QWidget* parent) :
 	 DzBridgeDialog(parent, DAZ_TO_UNITY_PLUGIN_NAME)

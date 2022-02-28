@@ -2,7 +2,7 @@
 #ifdef UNITTEST_DZBRIDGE
 
 #include <QObject>
-#include "UnitTest.h"
+#include <UnitTest.h>
 
 class UnitTest_DzUnityAction : public UnitTest {
 	Q_OBJECT

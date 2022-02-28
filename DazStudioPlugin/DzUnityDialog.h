@@ -15,7 +15,9 @@ class DzUnityAction;
 
 class UnitTest_DzUnityDialog;
 
-class DzUnityDialog : public DzBridgeDialog {
+#include "dzbridge.h"
+
+class DzUnityDialog : public DZ_BRIDGE_NAMESPACE::DzBridgeDialog{
 	friend DzUnityAction;
 	Q_OBJECT
 	Q_PROPERTY(QWidget* assetsFolderEdit READ getAssetsFolderEdit)

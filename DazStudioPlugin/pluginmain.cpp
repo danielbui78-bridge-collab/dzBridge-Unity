@@ -5,27 +5,9 @@
 #include "DzUnityAction.h"
 #include "DzUnityDialog.h"
 
-#ifdef __APPLE__
-DZ_PLUGIN_DEFINITION("Daz To Unity Bridge");
-#else
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved)
-{
-	switch (fdwReason) {
-	case DLL_PROCESS_ATTACH:
-		break;
-	case DLL_THREAD_ATTACH:
-		break;
-	case DLL_THREAD_DETACH:
-		break;
-	case DLL_PROCESS_DETACH:
-		break;
-	}
-	return TRUE;
-}
-static DzPlugin s_pluginDef("Daz To Unity Bridge");
-extern "C" __declspec(dllexport) DzVersion getSDKVersion() { return DZ_SDK_VERSION; }
-extern "C" __declspec(dllexport) DzPlugin * getPluginDefinition() { return &s_pluginDef; }
-#endif
+#include "dzbridge.h"
+
+CPP_PLUGIN_DEFINITION("Daz To Unity Bridge");
 
 DZ_PLUGIN_AUTHOR("Daz 3D, Inc");
 
@@ -38,31 +20,7 @@ Bridge Collaboration Project<br><br>\
 ).arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(PLUGIN_REV).arg(PLUGIN_BUILD));
 
 DZ_PLUGIN_CLASS_GUID(DzUnityAction, 2C2AA695-652C-4FA9-BE48-E0AB954E28AB);
-DZ_PLUGIN_CUSTOM_CLASS_GUID(DzUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);
-
-
-static QWidget* GetParentArg0(const QVariantList& args)
-{
-	QWidget* parent = nullptr;
-	QVariant qvar = args[0];
-	QObject* obj = qvar.value<QObject*>();
-	if (obj && obj->inherits("QWidget"))
-	{
-		parent = (QWidget*)obj;
-	}
-
-	return parent;
-}
-
-QObject* DzUnityDialogFactory::createInstance(const QVariantList& args) const
-{
-	QWidget* parent = GetParentArg0(args);
-	return (QObject*) new DzUnityDialog(parent);
-}
-QObject* DzUnityDialogFactory::createInstance() const
-{
-	return (QObject*) new DzUnityDialog();
-}
+NEW_PLUGIN_CUSTOM_CLASS_GUID(DzUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);
 
 #ifdef UNITTEST_DZBRIDGE
 
