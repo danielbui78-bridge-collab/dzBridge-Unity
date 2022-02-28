@@ -9,7 +9,9 @@
 
 class UnitTest_DzUnityAction;
 
-class DzUnityAction : public DzBridgeAction {
+#include "dzbridge.h"
+
+class DzUnityAction : public DZ_BRIDGE_NAMESPACE::DzBridgeAction {
 	 Q_OBJECT
 	 Q_PROPERTY(bool InstallUnityFiles READ getInstallUnityFiles WRITE setInstallUnityFiles)
 public:
