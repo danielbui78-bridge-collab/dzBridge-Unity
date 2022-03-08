@@ -35,6 +35,7 @@
 #include <shellapi.h>
 #endif
 
+#include "dzbridge.h"
 
 DzUnityAction::DzUnityAction() :
 	DzBridgeAction(tr("Daz To &Unity"), tr("Send the selected node to Unity."))
@@ -87,8 +88,8 @@ bool DzUnityAction::createUI()
 		}
 	}
 
-	if (!m_subdivisionDialog) m_subdivisionDialog = DzBridgeSubdivisionDialog::Get(m_bridgeDialog);
-	if (!m_morphSelectionDialog) m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
+	if (!m_subdivisionDialog) m_subdivisionDialog = DZ_BRIDGE_NAMESPACE::DzBridgeSubdivisionDialog::Get(m_bridgeDialog);
+	if (!m_morphSelectionDialog) m_morphSelectionDialog = DZ_BRIDGE_NAMESPACE::DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
 
 	return true;
 }
@@ -156,7 +157,7 @@ void DzUnityAction::executeAction()
 			m_sMorphSelectionRule += "\n1\n.CTRLVS\n2\nAnything\n0";
 			if (m_morphSelectionDialog == nullptr)
 			{
-				m_morphSelectionDialog = DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
+				m_morphSelectionDialog = DZ_BRIDGE_NAMESPACE::DzBridgeMorphSelectionDialog::Get(m_bridgeDialog);
 			}
 			m_mMorphNameToLabel.clear();
 			foreach(QString morphName, m_aMorphListOverride)
