@@ -36,8 +36,8 @@
 		{
 			"UnitTest ID" : 5,
 			"Method Name" : "writeConfiguration",
-			"Test Result" : true,
-			"Test Log" : ""
+			"Test Result" : false,
+			"Test Log" : "C++ exception caught."
 		},
 		{
 			"UnitTest ID" : 6,
