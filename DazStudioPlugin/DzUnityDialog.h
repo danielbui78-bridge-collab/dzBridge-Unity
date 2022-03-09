@@ -22,11 +22,6 @@ class DzUnityDialog : public DZ_BRIDGE_NAMESPACE::DzBridgeDialog{
 	Q_OBJECT
 	Q_PROPERTY(QWidget* assetsFolderEdit READ getAssetsFolderEdit)
 public:
-//	Q_INVOKABLE void addButton(QAbstractButton* btn, int index = 1) { DzBasicDialog::addButton(btn, index); }
-//	Q_INVOKABLE void addLayout(QLayout* layout, int stretch = 0) { DzBasicDialog::addLayout(layout, stretch); }
-//	Q_INVOKABLE void addSpacing(int spacing) { DzBasicDialog::addSpacing(spacing); }
-//	Q_INVOKABLE void addStretch(int stretch=0) { DzBasicDialog::addStretch(stretch); }
-//	Q_INVOKABLE void addWidget(QWidget* child, int stretch=0, Qt::Alignment alignment=0) { DzBasicDialog::addWidget(child, stretch, alignment); }
 	Q_INVOKABLE QLineEdit* getAssetsFolderEdit() { return assetsFolderEdit; }
 
 	/** Constructor **/

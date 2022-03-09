@@ -1,7 +1,7 @@
 {
 	"UnitTest Results Version" : 1,
 	"Class Name" : "DzUnityDialog",
-	"Number of UnitTests" : 13,
+	"Number of UnitTests" : 8,
 	"Detailed Test Results" : [
 		{
 			"UnitTest ID" : 0,
@@ -11,72 +11,42 @@
 		},
 		{
 			"UnitTest ID" : 1,
-			"Method Name" : "addButton",
-			"Test Result" : false,
-			"Test Log" : "C++ exception caught. Failed nullptr C++ exception test."
-		},
-		{
-			"UnitTest ID" : 2,
-			"Method Name" : "addLayout",
-			"Test Result" : false,
-			"Test Log" : "C++ exception caught. Failed nullptr C++ exception test."
-		},
-		{
-			"UnitTest ID" : 3,
-			"Method Name" : "addSpacing",
-			"Test Result" : true,
-			"Test Log" : ""
-		},
-		{
-			"UnitTest ID" : 4,
-			"Method Name" : "addStretch",
-			"Test Result" : true,
-			"Test Log" : ""
-		},
-		{
-			"UnitTest ID" : 5,
-			"Method Name" : "addWidget",
-			"Test Result" : true,
-			"Test Log" : ""
-		},
-		{
-			"UnitTest ID" : 6,
 			"Method Name" : "getAssetsFolderEdit",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 7,
+			"UnitTest ID" : 2,
 			"Method Name" : "resetToDefaults",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 8,
+			"UnitTest ID" : 3,
 			"Method Name" : "loadSavedSettings",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 9,
+			"UnitTest ID" : 4,
 			"Method Name" : "HandleSelectAssetsFolderButton",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 10,
+			"UnitTest ID" : 5,
 			"Method Name" : "HandleInstallUnityFilesCheckBoxChange",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 11,
+			"UnitTest ID" : 6,
 			"Method Name" : "HandleAssetTypeComboChange",
 			"Test Result" : true,
 			"Test Log" : ""
 		},
 		{
-			"UnitTest ID" : 12,
+			"UnitTest ID" : 7,
 			"Method Name" : "HandleAssetFolderChanged",
 			"Test Result" : true,
 			"Test Log" : ""
