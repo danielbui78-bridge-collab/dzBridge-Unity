@@ -48,14 +48,12 @@ add_library( ${DZ_PLUGIN_TGT_NAME} SHARED
 
 target_include_directories(${DZ_PLUGIN_TGT_NAME}
 	PUBLIC
-	${DZBRIDGE_INCLUDE_DIR}
 )
 
 target_link_libraries(${DZ_PLUGIN_TGT_NAME}
 	PRIVATE
 	dzcore
-	optimized ${DZBRIDGE_LIB}
-	debug ${DZBRIDGE_LIB_DEBUG}
+	dzbridge-static
 	${DZSDK_QT_CORE_TARGET}
 	${DZSDK_QT_GUI_TARGET}
 	${DZSDK_QT_SCRIPT_TARGET}
