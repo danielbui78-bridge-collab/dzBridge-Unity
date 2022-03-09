@@ -1,0 +1,29 @@
+======= UnitTest Details =======
+
+[ 1] addButton:
+C++ exception caught. Failed nullptr C++ exception test.
+
+[ 2] addLayout:
+C++ exception caught. Failed nullptr C++ exception test.
+
+
+======= UnitTest Summary =======
+
+Class Name: DzUnityDialog
+Number of UnitTests: 13
+
+[ 0] _DzBridgeUnityDialog:..................[ PASSED ]
+[ 1] addButton:.............................[ *** FAILED *** ]
+[ 2] addLayout:.............................[ *** FAILED *** ]
+[ 3] addSpacing:............................[ PASSED ]
+[ 4] addStretch:............................[ PASSED ]
+[ 5] addWidget:.............................[ PASSED ]
+[ 6] getAssetsFolderEdit:...................[ PASSED ]
+[ 7] resetToDefaults:.......................[ PASSED ]
+[ 8] loadSavedSettings:.....................[ PASSED ]
+[ 9] HandleSelectAssetsFolderButton:........[ PASSED ]
+[10] HandleInstallUnityFilesCheckBoxChange:.[ PASSED ]
+[11] HandleAssetTypeComboChange:............[ PASSED ]
+[12] HandleAssetFolderChanged:..............[ PASSED ]
+
+End of Report.
