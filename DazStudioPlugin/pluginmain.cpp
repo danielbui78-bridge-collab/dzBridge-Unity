@@ -13,11 +13,17 @@ DZ_PLUGIN_AUTHOR("Daz 3D, Inc");
 
 DZ_PLUGIN_VERSION(PLUGIN_MAJOR, PLUGIN_MINOR, PLUGIN_REV, PLUGIN_BUILD);
 
+#ifdef _DEBUG
 DZ_PLUGIN_DESCRIPTION(QString(
 	"<b>Pre-Release DazToUnity Bridge v%1.%2.%3.%4 </b><br>\
-Bridge Collaboration Project<br><br>\
-<a href = \"https://github.com/danielbui78-bridge-collab/DazToRuntime/tree/unreal-main\">Github</a><br><br>"
+<a href = \"https://github.com/daz3d/DazToRuntime\">Github</a><br><br>"
 ).arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(PLUGIN_REV).arg(PLUGIN_BUILD));
+#else
+DZ_PLUGIN_DESCRIPTION(QString(
+	"<b>DazToUnity Bridge v%1.%2.%3.%4 </b><br>\
+< a href = \"%1/aDazToUnity/index.htm\">Documentation</a><br><br>"
+).arg(PLUGIN_MAJOR).arg(PLUGIN_MINOR).arg(PLUGIN_REV).arg(PLUGIN_BUILD));
+#endif
 
 DZ_PLUGIN_CLASS_GUID(DzUnityAction, 2C2AA695-652C-4FA9-BE48-E0AB954E28AB);
 NEW_PLUGIN_CUSTOM_CLASS_GUID(DzUnityDialog, 06cf5776-8e81-4a81-bad8-619ed1205b58);

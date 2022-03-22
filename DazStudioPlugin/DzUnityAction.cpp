@@ -219,14 +219,21 @@ void DzUnityAction::executeAction()
 		// DB 2021-09-02: messagebox "Export Complete"
 		if (m_nNonInteractiveMode == 0)
 		{
-			QMessageBox::information(0, "DazBridge: Unity",
-				tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
 			if (m_bInstallUnityFiles)
 			{
+				QMessageBox::information(0, "Daz To Unity Bridge",
+					tr("Export phase from Daz Studio complete. Please switch to Unity to continue.\n\n\
+If Unity Import dialog does not appear, then please double-click the \"DazToUnity HDRP - Doubleclick to Install\" \
+located in the Assets\\Daz3D\\ folder of your Unity Project."), QMessageBox::Ok);
 				QString destPath = createUnityFiles(true);
 #ifdef WIN32
 				ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
 #endif
+			}
+			else
+			{
+				QMessageBox::information(0, "Daz To Unity Bridge",
+					tr("Export phase from Daz Studio complete. Please switch to Unity to begin Import phase."), QMessageBox::Ok);
 			}
 		}
 
