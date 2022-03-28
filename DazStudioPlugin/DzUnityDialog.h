@@ -30,7 +30,8 @@ public:
 	/** Destructor **/
 	virtual ~DzUnityDialog() {}
 
-	Q_INVOKABLE void resetToDefaults();
+	Q_INVOKABLE void resetToDefaults() override;
+	Q_INVOKABLE bool loadSavedSettings() override;
 
 protected slots:
 	void HandleSelectAssetsFolderButton();
@@ -39,8 +40,6 @@ protected slots:
 	void HandleAssetFolderChanged(const QString& directoryName);
 
 protected:
-	Q_INVOKABLE bool loadSavedSettings();
-
 	QLineEdit* projectEdit;
 	QPushButton* projectButton;
 	QLineEdit* assetsFolderEdit;
