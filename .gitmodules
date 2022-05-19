@@ -1,3 +1,7 @@
 [submodule "dzBridge-common"]
 	path = dzBridge-common
 	url = https://github.com/danielbui78-bridge-collab/dzBridge-common.git
+[submodule "UnityPlugin"]
+	path = UnityPlugin
+	url = https://github.com/danielbui78-bridge-collab/DazToUnity-UnityPlugin.git
+	branch = main
