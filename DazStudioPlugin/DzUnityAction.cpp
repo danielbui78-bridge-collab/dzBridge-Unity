@@ -223,8 +223,8 @@ void DzUnityAction::executeAction()
 			{
 				QMessageBox::information(0, "Daz To Unity Bridge",
 					tr("Export phase from Daz Studio complete. Please switch to Unity to continue.\n\n\
-If Unity Import dialog does not appear, then please double-click the \"DazToUnity HDRP - Doubleclick to Install\" \
-located in the Assets\\Daz3D\\ folder of your Unity Project."), QMessageBox::Ok);
+If Unity Import dialog does not appear, then please double-click the \"DazToUnity HDRP\" UnityPackage \
+file located in the Assets\\Daz3D\\Support\\ folder of your Unity Project."), QMessageBox::Ok);
 				QString destPath = createUnityFiles(true);
 #ifdef WIN32
 				ShellExecute(0, 0, destPath.toLocal8Bit().data(), 0, 0, SW_SHOW);
@@ -245,13 +245,30 @@ QString DzUnityAction::createUnityFiles(bool replace)
 	if (!m_bInstallUnityFiles)
 		return "";
 
-	QString srcPath = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
-	QFile srcFile(srcPath);
-	QString destPath = m_sRootFolder + "/DazToUnity HDRP - Doubleclick to Install.unitypackage";
-	this->copyFile(&srcFile, &destPath, replace);
-	srcFile.close();
+	QString destinationFolder = m_sRootFolder + "/Support";
+	QDir dir;
+	dir.mkpath(destinationFolder);
 
-	return destPath;
+	QString srcPathHDRP = ":/DazBridgeUnity/daztounity-hdrp.unitypackage";
+	QFile srcFileHDRP(srcPathHDRP);
+	QString destPathHDRP = destinationFolder + "/DazToUnity HDRP.unitypackage";
+	this->copyFile(&srcFileHDRP, &destPathHDRP, replace);
+	srcFileHDRP.close();
+
+	QString srcPathURP = ":/DazBridgeUnity/daztounity-urp.unitypackage";
+	QFile srcFileURP(srcPathURP);
+	QString destPathURP = destinationFolder + "/DazToUnity URP.unitypackage";
+	this->copyFile(&srcFileURP, &destPathURP, replace);
+	srcFileURP.close();
+
+	QString srcPathStandard = ":/DazBridgeUnity/daztounity-standard-shader.unitypackage";
+	QFile srcFileStandard(srcPathStandard);
+	QString destPathStandard = destinationFolder + "/DazToUnity Standard Shader.unitypackage";
+	this->copyFile(&srcFileStandard, &destPathStandard, replace);
+	srcFileStandard.close();
+
+
+	return destPathHDRP;
 }
 
 void DzUnityAction::writeConfiguration()
